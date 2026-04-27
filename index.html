@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girolamo Pinto — Software Development Engineer</title>
+    <meta name="description" content="Software Development Engineer specializing in TCMS, embedded systems, and mission-critical software. Based in Naples, Italy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #111114;
+            --bg-card: #16161a;
+            --bg-elevated: #1c1c21;
+            --text-primary: #f0ece4;
+            --text-secondary: #9a958c;
+            --text-muted: #5c584f;
+            --accent: #d4a843;
+            --accent-dim: #b8922e;
+            --accent-glow: rgba(212, 168, 67, 0.15);
+            --border: #2a2a30;
+            --border-light: #3a3a42;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-dim) var(--bg-primary);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════ NAVIGATION ═══════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 12, 0.7);
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--border);
+            background: rgba(10, 10, 12, 0.92);
+        }
+
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        /* ═══════════════ HERO ═══════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .hero-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 168, 67, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-card {
+            width: 340px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-stat {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-stat-value {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 0.3rem 0.6rem;
+            letter-spacing: 1px;
+        }
+
+        /* ═══════════════ SECTIONS (shared) ═══════════════ */
+        section {
+            padding: 6rem 2.5rem;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .section-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        /* ═══════════════ ABOUT ═══════════════ */
+        #about {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            font-size: 1.02rem;
+        }
+
+        .about-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-left: 2px solid var(--accent);
+        }
+
+        .detail-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* ═══════════════ EXPERIENCE ═══════════════ */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0.5rem;
+            width: 9px;
+            height: 9px;
+            background: var(--accent);
+            transform: translateX(-4px) rotate(45deg);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-role {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-company {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-projects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .timeline-project-tag {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ═══════════════ SKILLS ═══════════════ */
+        #skills {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .skill-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-4px);
+        }
+
+        .skill-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .skill-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .skill-item {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            padding: 0.3rem 0.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ═══════════════ EDUCATION ═══════════════ */
+        .edu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .edu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .edu-card:hover {
+            border-color: var(--accent);
+        }
+
+        .edu-institution {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .edu-degree {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .edu-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* ═══════════════ CONTACT ═══════════════ */
+        #contact {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-text p {
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-email {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            color: var(--accent);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .contact-email:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .social-links {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
+        }
+
+        .social-link-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .social-link-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--accent);
+        }
+
+        .social-link-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .social-link-handle {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .social-link-arrow {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .social-link:hover .social-link-arrow {
+            transform: translateX(4px);
+            color: var(--accent);
+        }
+
+        /* ═══════════════ FOOTER ═══════════════ */
+        footer {
+            padding: 2.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* ═══════════════ RESPONSIVE ═══════════════ */
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                z-index: 99;
+            }
+
+            .nav-links.open { display: flex; }
+
+            .nav-links a { font-size: 1.2rem; }
+
+            .nav-toggle { display: flex; z-index: 101; }
+
+            .hero { padding: 7rem 1.5rem 3rem; }
+            .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .hero-visual { justify-content: flex-start; }
+            .hero-card { width: 100%; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .edu-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+            section { padding: 4rem 1.5rem; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+
+        /* ═══════════════ SCROLL REVEAL ═══════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════ NAV ═══════════════ -->
+    <nav id="nav">
+        <div class="nav-logo">GP_</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about" onclick="closeNav()">About</a></li>
+            <li><a href="#experience" onclick="closeNav()">Experience</a></li>
+            <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+            <li><a href="#education" onclick="closeNav()">Education</a></li>
+            <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="hero-label">Software Development Engineer</div>
+                <h1>Girolamo<br><em>Pinto</em></h1>
+                <p class="hero-desc">Building mission-critical software systems for railway and transportation. From onboard diagnostics to real-time HMI — engineering that moves millions.</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">Get in touch &#8599;</a>
+                    <a href="#experience" class="btn btn-outline">View experience</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="card-meta">// Current role</div>
+                    <div class="card-stat">
+                        <div class="card-stat-label">Position</div>
+                        <div class="card-stat-value">SDE — TCMS</div>
+                    </div>
+                    <div class="card-stat">
+                        <div class="card-stat-label">Company</div>
+                        <div class="card-stat-value">Hitachi Rail</div>
+                    </div>
+                    <div class="card-stat">
+                        <div class="card-stat-label">Location</div>
+                        <div class="card-stat-value">Naples, Italy</div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="card-tag">C</span>
+                        <span class="card-tag">Python</span>
+                        <span class="card-tag">JavaScript</span>
+                        <span class="card-tag">Embedded</span>
+                        <span class="card-tag">TCMS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ ABOUT ═══════════════ -->
+    <section id="about">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About Me</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <p>Software Development Engineer with hands-on experience in designing, developing, and maintaining mission-critical systems in complex, regulated environments.</p>
+                    <p>I specialize in backend and embedded-oriented development, system diagnostics, and cross-team collaboration. I'm comfortable owning features end-to-end, working across the full software development lifecycle, and delivering reliable, maintainable solutions.</p>
+                    <p>My journey started with a passion for engineering at the University of Naples Federico II, where I was part of the Formula Student electric racing team, and continued through the Apple Developer Academy before joining the railway industry.</p>
+                </div>
+                <div class="about-details reveal">
+                    <div class="detail-item">
+                        <div class="detail-label">Based in</div>
+                        <div class="detail-value">Torre del Greco, Naples — Italy</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Focus Areas</div>
+                        <div class="detail-value">TCMS, Embedded Systems, HMI, Diagnostics</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Industry</div>
+                        <div class="detail-value">Railway & Transportation</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Languages</div>
+                        <div class="detail-value">Italian, English</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ EXPERIENCE ═══════════════ -->
+    <section id="experience">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Professional Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024 — Present</div>
+                    <h3 class="timeline-role">Software Development Engineer — TCMS</h3>
+                    <div class="timeline-company">Hitachi Rail STS · Naples, Italy</div>
+                    <p class="timeline-desc">Developing and maintaining onboard monitoring and diagnostic software for Train Control and Monitoring Systems. Designing HMI pages for real-time operational and diagnostic information. Owning feature implementation from requirements analysis to testing support and documentation.</p>
+                    <div class="timeline-projects">
+                        <span class="timeline-project-tag">Trenitalia Rock</span>
+                        <span class="timeline-project-tag">Blues (hybrid)</span>
+                        <span class="timeline-project-tag">Mumbai Metro L2/L7</span>
+                        <span class="timeline-project-tag">Thessaloniki Metro</span>
+                        <span class="timeline-project-tag">Florence Tram</span>
+                        <span class="timeline-project-tag">Trenord</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 — 2024</div>
+                    <h3 class="timeline-role">Software Engineer — TCMS (Consultant)</h3>
+                    <div class="timeline-company">Akronos Technologies S.r.l. (for Hitachi Rail STS) · Naples, Italy</div>
+                    <p class="timeline-desc">Supported development and integration of TCMS diagnostic and monitoring software for regional railway platforms. Implemented new diagnostic features, maintained train databases, and worked on Ethernet-based communication between onboard control units.</p>
+                    <div class="timeline-projects">
+                        <span class="timeline-project-tag">Trenitalia Rock</span>
+                        <span class="timeline-project-tag">Trenitalia Blues</span>
+                        <span class="timeline-project-tag">Trenord</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2021 — 2023</div>
+                    <h3 class="timeline-role">Track Engineer & Firmware Engineer</h3>
+                    <div class="timeline-company">UniNa Corse Electric Team (Formula Student) · Naples, Italy</div>
+                    <p class="timeline-desc">Developed telemetry software for real-time data acquisition and analysis from vehicle sensors. Designed vehicle dashboard and supported firmware development for embedded systems. Collaborated with drivers and engineers to improve performance through data-driven insights.</p>
+                    <div class="timeline-projects">
+                        <span class="timeline-project-tag">Python</span>
+                        <span class="timeline-project-tag">C</span>
+                        <span class="timeline-project-tag">MATLAB</span>
+                        <span class="timeline-project-tag">Simulink</span>
+                        <span class="timeline-project-tag">LoRa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ SKILLS ═══════════════ -->
+    <section id="skills">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#60;/&#62;</div>
+                    <h3>Languages</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">C</span>
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">HTML/CSS</span>
+                        <span class="skill-item">C#</span>
+                        <span class="skill-item">C++</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#9881;</div>
+                    <h3>Engineering</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Requirements Analysis</span>
+                        <span class="skill-item">System Design</span>
+                        <span class="skill-item">Debugging</span>
+                        <span class="skill-item">Testing</span>
+                        <span class="skill-item">Documentation</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#9670;</div>
+                    <h3>Tools & Platforms</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">GitHub</span>
+                        <span class="skill-item">SVN</span>
+                        <span class="skill-item">Jira</span>
+                        <span class="skill-item">MATLAB</span>
+                        <span class="skill-item">Simulink</span>
+                        <span class="skill-item">CubeIDE</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#9672;</div>
+                    <h3>Domains</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Embedded Systems</span>
+                        <span class="skill-item">TCMS</span>
+                        <span class="skill-item">Onboard Diagnostics</span>
+                        <span class="skill-item">HMI Design</span>
+                        <span class="skill-item">Ethernet Comm.</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#9733;</div>
+                    <h3>Methodologies</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">SDLC</span>
+                        <span class="skill-item">Cross-team Collaboration</span>
+                        <span class="skill-item">End-to-end Ownership</span>
+                        <span class="skill-item">Agile</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon">&#128752;</div>
+                    <h3>Protocols</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Ethernet</span>
+                        <span class="skill-item">LoRa</span>
+                        <span class="skill-item">CAN</span>
+                        <span class="skill-item">Serial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ EDUCATION ═══════════════ -->
+    <section id="education">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Education</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="edu-grid">
+                <div class="edu-card reveal">
+                    <div class="edu-institution">University of Naples Federico II</div>
+                    <h3 class="edu-degree">Bachelor's Degree in Computer Engineering</h3>
+                    <p class="edu-desc">Foundation in computer science, software engineering, digital systems, and electrical engineering.</p>
+                </div>
+                <div class="edu-card reveal">
+                    <div class="edu-institution">University of Naples Federico II</div>
+                    <h3 class="edu-degree">Apple Developer Academy</h3>
+                    <p class="edu-desc">iOS Development Program — intensive hands-on training in app design and development with Apple technologies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ CONTACT ═══════════════ -->
+    <section id="contact">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Let's Connect</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-text reveal">
+                    <p>Whether you're looking for a software engineer with railway domain expertise, want to discuss embedded systems, or just want to say hello — I'd love to hear from you.</p>
+                    <a href="mailto:girolamopinto1@gmail.com" class="contact-email">girolamopinto1@gmail.com</a>
+                </div>
+                <div class="social-links reveal">
+                    <a href="https://www.linkedin.com/in/girolamo-pinto/" target="_blank" rel="noopener" class="social-link">
+                        <div class="social-link-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </div>
+                        <div>
+                            <div class="social-link-name">LinkedIn</div>
+                            <div class="social-link-handle">girolamo-pinto</div>
+                        </div>
+                        <span class="social-link-arrow">&#8599;</span>
+                    </a>
+                    <a href="https://github.com/girpinto" target="_blank" rel="noopener" class="social-link">
+                        <div class="social-link-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        </div>
+                        <div>
+                            <div class="social-link-name">GitHub</div>
+                            <div class="social-link-handle">girpinto</div>
+                        </div>
+                        <span class="social-link-arrow">&#8599;</span>
+                    </a>
+                    <a href="https://www.instagram.com/girolamopinto/" target="_blank" rel="noopener" class="social-link">
+                        <div class="social-link-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 11-2.88 0 1.441 1.441 0 012.88 0z"/></svg>
+                        </div>
+                        <div>
+                            <div class="social-link-name">Instagram</div>
+                            <div class="social-link-handle">@girolamopinto</div>
+                        </div>
+                        <span class="social-link-arrow">&#8599;</span>
+                    </a>
+                    <a href="tel:+393395681893" class="social-link">
+                        <div class="social-link-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        </div>
+                        <div>
+                            <div class="social-link-name">Phone</div>
+                            <div class="social-link-handle">+39 339 568 1893</div>
+                        </div>
+                        <span class="social-link-arrow">&#8599;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer>
+        <span>&copy; 2026 Girolamo Pinto</span>
+        <span>Designed with precision</span>
+    </footer>
+
+    <script>
+        // ── Nav scroll effect ──
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ── Mobile nav toggle ──
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        function closeNav() {
+            navLinks.classList.remove('open');
+        }
+
+        // ── Scroll reveal ──
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // ── Smooth scroll for anchor links ──
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
