@@ -27,11 +27,7 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html {
             scroll-behavior: smooth;
@@ -47,7 +43,6 @@
             overflow-x: hidden;
         }
 
-        /* ═══════════════ NAVIGATION ═══════════════ */
         nav {
             position: fixed;
             top: 0;
@@ -109,6 +104,30 @@
         .nav-links a:hover { color: var(--text-primary); }
         .nav-links a:hover::after { width: 100%; }
 
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 1rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
         .nav-toggle {
             display: none;
             flex-direction: column;
@@ -126,7 +145,6 @@
             transition: all 0.3s;
         }
 
-        /* ═══════════════ HERO ═══════════════ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -163,10 +181,7 @@
             align-items: center;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
+        .hero-content { position: relative; z-index: 2; }
 
         .hero-label {
             font-family: var(--font-mono);
@@ -196,10 +211,7 @@
             color: var(--text-primary);
         }
 
-        .hero h1 em {
-            font-style: italic;
-            color: var(--accent);
-        }
+        .hero h1 em { font-style: italic; color: var(--accent); }
 
         .hero-desc {
             font-size: 1.05rem;
@@ -209,11 +221,7 @@
             font-weight: 300;
         }
 
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
 
         .btn {
             display: inline-flex;
@@ -244,10 +252,7 @@
             box-shadow: 0 8px 30px rgba(212, 168, 67, 0.25);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--text-primary);
-        }
+        .btn-outline { background: transparent; color: var(--text-primary); }
 
         .btn-outline:hover {
             border-color: var(--accent);
@@ -289,9 +294,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .card-stat {
-            margin-bottom: 1.5rem;
-        }
+        .card-stat { margin-bottom: 1.5rem; }
 
         .card-stat-label {
             font-size: 0.75rem;
@@ -325,19 +328,9 @@
             letter-spacing: 1px;
         }
 
-        /* ═══════════════ SECTIONS (shared) ═══════════════ */
-        section {
-            padding: 6rem 2.5rem;
-        }
-
-        .section-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            margin-bottom: 4rem;
-        }
+        section { padding: 6rem 2.5rem; }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .section-header { margin-bottom: 4rem; }
 
         .section-number {
             font-family: var(--font-mono);
@@ -355,25 +348,15 @@
             line-height: 1.2;
         }
 
-        .section-line {
-            width: 60px;
-            height: 1px;
-            background: var(--accent);
-            margin-top: 1.5rem;
-        }
+        .section-line { width: 60px; height: 1px; background: var(--accent); margin-top: 1.5rem; }
 
-        /* ═══════════════ ABOUT ═══════════════ */
         #about {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
 
         .about-text p {
             color: var(--text-secondary);
@@ -382,10 +365,7 @@
             font-size: 1.02rem;
         }
 
-        .about-details {
-            display: grid;
-            gap: 1.5rem;
-        }
+        .about-details { display: grid; gap: 1.5rem; }
 
         .detail-item {
             padding: 1.5rem;
@@ -402,17 +382,9 @@
             margin-bottom: 0.4rem;
         }
 
-        .detail-value {
-            font-size: 1rem;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
+        .detail-value { font-size: 1rem; color: var(--text-primary); font-weight: 500; }
 
-        /* ═══════════════ EXPERIENCE ═══════════════ */
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
+        .timeline { position: relative; padding-left: 3rem; }
 
         .timeline::before {
             content: '';
@@ -436,9 +408,7 @@
         .timeline-item:nth-child(2) { animation-delay: 0.3s; }
         .timeline-item:nth-child(3) { animation-delay: 0.5s; }
 
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
         .timeline-item::before {
             content: '';
@@ -478,11 +448,7 @@
             margin-bottom: 1rem;
         }
 
-        .timeline-projects {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+        .timeline-projects { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
         .timeline-project-tag {
             font-family: var(--font-mono);
@@ -494,18 +460,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* ═══════════════ SKILLS ═══════════════ */
         #skills {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
+        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 
         .skill-card {
             background: var(--bg-card);
@@ -529,20 +490,10 @@
             transition: transform 0.4s ease;
         }
 
-        .skill-card:hover {
-            border-color: var(--border-light);
-            transform: translateY(-4px);
-        }
+        .skill-card:hover { border-color: var(--border-light); transform: translateY(-4px); }
+        .skill-card:hover::after { transform: scaleX(1); }
 
-        .skill-card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .skill-icon {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 1rem;
-        }
+        .skill-icon { width: 32px; height: 32px; margin-bottom: 1rem; }
 
         .skill-icon svg {
             width: 100%;
@@ -561,11 +512,7 @@
             font-weight: 400;
         }
 
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
+        .skill-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
         .skill-item {
             font-family: var(--font-mono);
@@ -576,12 +523,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ═══════════════ EDUCATION ═══════════════ */
-        .edu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
+        .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 
         .edu-card {
             background: var(--bg-card);
@@ -590,9 +532,7 @@
             transition: all 0.3s ease;
         }
 
-        .edu-card:hover {
-            border-color: var(--accent);
-        }
+        .edu-card:hover { border-color: var(--accent); }
 
         .edu-institution {
             font-family: var(--font-mono);
@@ -609,24 +549,14 @@
             margin-bottom: 0.5rem;
         }
 
-        .edu-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 300;
-        }
+        .edu-desc { color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; }
 
-        /* ═══════════════ CONTACT ═══════════════ */
         #contact {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
         }
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
 
         .contact-text p {
             color: var(--text-secondary);
@@ -645,14 +575,9 @@
             border-bottom: 1px solid transparent;
         }
 
-        .contact-email:hover {
-            border-bottom-color: var(--accent);
-        }
+        .contact-email:hover { border-bottom-color: var(--accent); }
 
-        .social-links {
-            display: grid;
-            gap: 1rem;
-        }
+        .social-links { display: grid; gap: 1rem; }
 
         .social-link {
             display: flex;
@@ -666,10 +591,7 @@
             transition: all 0.3s ease;
         }
 
-        .social-link:hover {
-            border-color: var(--accent);
-            transform: translateX(8px);
-        }
+        .social-link:hover { border-color: var(--accent); transform: translateX(8px); }
 
         .social-link-icon {
             width: 40px;
@@ -680,16 +602,9 @@
             flex-shrink: 0;
         }
 
-        .social-link-icon svg {
-            width: 22px;
-            height: 22px;
-            fill: var(--accent);
-        }
+        .social-link-icon svg { width: 22px; height: 22px; fill: var(--accent); }
 
-        .social-link-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
+        .social-link-name { font-weight: 500; font-size: 0.95rem; }
 
         .social-link-handle {
             font-family: var(--font-mono);
@@ -701,16 +616,14 @@
         .social-link-arrow {
             margin-left: auto;
             color: var(--text-muted);
-            font-size: 1.2rem;
             transition: transform 0.3s;
+            display: flex;
+            align-items: center;
         }
 
-        .social-link:hover .social-link-arrow {
-            transform: translateX(4px);
-            color: var(--accent);
-        }
+        .social-link-arrow svg { width: 16px; height: 16px; }
+        .social-link:hover .social-link-arrow { transform: translateX(4px); color: var(--accent); }
 
-        /* ═══════════════ FOOTER ═══════════════ */
         footer {
             padding: 2.5rem;
             border-top: 1px solid var(--border);
@@ -723,7 +636,14 @@
             letter-spacing: 1px;
         }
 
-        /* ═══════════════ RESPONSIVE ═══════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 900px) {
             nav { padding: 1rem 1.5rem; }
 
@@ -743,9 +663,7 @@
             }
 
             .nav-links.open { display: flex; }
-
             .nav-links a { font-size: 1.2rem; }
-
             .nav-toggle { display: flex; z-index: 101; }
 
             .hero { padding: 7rem 1.5rem 3rem; }
@@ -761,65 +679,53 @@
             section { padding: 4rem 1.5rem; }
             footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
-
-        /* ═══════════════ SCROLL REVEAL ═══════════════ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
 
-    <!-- ═══════════════ NAV ═══════════════ -->
     <nav id="nav">
         <div class="nav-logo">GP_</div>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#about" onclick="closeNav()">About</a></li>
-            <li><a href="#experience" onclick="closeNav()">Experience</a></li>
-            <li><a href="#skills" onclick="closeNav()">Skills</a></li>
-            <li><a href="#education" onclick="closeNav()">Education</a></li>
-            <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+            <li><a href="#about" onclick="closeNav()" data-en="About" data-it="Chi sono">About</a></li>
+            <li><a href="#experience" onclick="closeNav()" data-en="Experience" data-it="Esperienza">Experience</a></li>
+            <li><a href="#skills" onclick="closeNav()" data-en="Skills" data-it="Competenze">Skills</a></li>
+            <li><a href="#education" onclick="closeNav()" data-en="Education" data-it="Formazione">Education</a></li>
+            <li><a href="#contact" onclick="closeNav()" data-en="Contact" data-it="Contatti">Contact</a></li>
         </ul>
+        <div class="lang-switch">
+            <button class="lang-btn" id="langEn" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" id="langIt" onclick="setLang('it')">IT</button>
+        </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
     </nav>
 
-    <!-- ═══════════════ HERO ═══════════════ -->
     <section class="hero">
         <div class="hero-grid">
             <div class="hero-content">
-                <div class="hero-label">Software Development Engineer</div>
+                <div class="hero-label" data-en="Software Development Engineer" data-it="Software Development Engineer">Software Development Engineer</div>
                 <h1>Girolamo<br><em>Pinto</em></h1>
-                <p class="hero-desc">Building mission-critical software systems for railway and transportation. From onboard diagnostics to real-time HMI — engineering that moves millions.</p>
+                <p class="hero-desc" data-en="Building mission-critical software systems for railway and transportation. From onboard diagnostics to real-time HMI — engineering that moves millions." data-it="Sviluppo software mission-critical per il settore ferroviario e dei trasporti. Dalla diagnostica di bordo alle interfacce HMI in tempo reale — ingegneria che muove milioni di persone.">Building mission-critical software systems for railway and transportation. From onboard diagnostics to real-time HMI — engineering that moves millions.</p>
                 <div class="hero-cta">
-                    <a href="#contact" class="btn btn-primary">Get in touch <svg style="width:14px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                    </a>
-                    <a href="#experience" class="btn btn-outline">View experience</a>
+                    <a href="#contact" class="btn btn-primary" id="ctaPrimary" data-en="Get in touch" data-it="Contattami">Get in touch <svg style="width:14px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+                    <a href="#experience" class="btn btn-outline" data-en="View experience" data-it="Esperienza">View experience</a>
                 </div>
             </div>
             <div class="hero-visual">
                 <div class="hero-card">
-                    <div class="card-meta">// Current role</div>
+                    <div class="card-meta" data-en="// Current role" data-it="// Ruolo attuale">// Current role</div>
                     <div class="card-stat">
-                        <div class="card-stat-label">Position</div>
+                        <div class="card-stat-label" data-en="Position" data-it="Posizione">Position</div>
                         <div class="card-stat-value">SDE — TCMS</div>
                     </div>
                     <div class="card-stat">
-                        <div class="card-stat-label">Company</div>
+                        <div class="card-stat-label" data-en="Company" data-it="Azienda">Company</div>
                         <div class="card-stat-value">Hitachi Rail</div>
                     </div>
                     <div class="card-stat">
-                        <div class="card-stat-label">Location</div>
-                        <div class="card-stat-value">Naples, Italy</div>
+                        <div class="card-stat-label" data-en="Location" data-it="Sede">Location</div>
+                        <div class="card-stat-value" data-en="Naples, Italy" data-it="Napoli, Italia">Naples, Italy</div>
                     </div>
                     <div class="card-tags">
                         <span class="card-tag">C</span>
@@ -833,56 +739,54 @@
         </div>
     </section>
 
-    <!-- ═══════════════ ABOUT ═══════════════ -->
     <section id="about">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">01</span>
-                <h2 class="section-title">About Me</h2>
+                <h2 class="section-title" data-en="About Me" data-it="Chi Sono">About Me</h2>
                 <div class="section-line"></div>
             </div>
             <div class="about-grid">
                 <div class="about-text reveal">
-                    <p>Software Development Engineer with hands-on experience in designing, developing, and maintaining mission-critical systems in complex, regulated environments.</p>
-                    <p>I specialize in backend and embedded-oriented development, system diagnostics, and cross-team collaboration. I'm comfortable owning features end-to-end, working across the full software development lifecycle, and delivering reliable, maintainable solutions.</p>
-                    <p>My journey started with a passion for engineering at the University of Naples Federico II, where I was part of the Formula Student electric racing team, and continued through the Apple Developer Academy before joining the railway industry.</p>
+                    <p data-en="Software Development Engineer with hands-on experience in designing, developing, and maintaining mission-critical systems in complex, regulated environments." data-it="Software Development Engineer con esperienza pratica nella progettazione, sviluppo e manutenzione di sistemi mission-critical in ambienti complessi e regolamentati.">Software Development Engineer with hands-on experience in designing, developing, and maintaining mission-critical systems in complex, regulated environments.</p>
+                    <p data-en="I specialize in backend and embedded-oriented development, system diagnostics, and cross-team collaboration. I'm comfortable owning features end-to-end, working across the full software development lifecycle, and delivering reliable, maintainable solutions." data-it="Specializzato in sviluppo backend ed embedded, diagnostica di sistema e collaborazione cross-team. A mio agio nel gestire funzionalità end-to-end, lavorando sull'intero ciclo di vita del software e fornendo soluzioni affidabili e manutenibili.">I specialize in backend and embedded-oriented development, system diagnostics, and cross-team collaboration. I'm comfortable owning features end-to-end, working across the full software development lifecycle, and delivering reliable, maintainable solutions.</p>
+                    <p data-en="My journey started with a passion for engineering at the University of Naples Federico II, where I was part of the Formula Student electric racing team, and continued through the Apple Developer Academy before joining the railway industry." data-it="Il mio percorso è iniziato con la passione per l'ingegneria alla Federico II di Napoli, dove ho fatto parte del team Formula Student elettrico, per poi proseguire con la Apple Developer Academy prima di entrare nel settore ferroviario.">My journey started with a passion for engineering at the University of Naples Federico II, where I was part of the Formula Student electric racing team, and continued through the Apple Developer Academy before joining the railway industry.</p>
                 </div>
                 <div class="about-details reveal">
                     <div class="detail-item">
-                        <div class="detail-label">Based in</div>
+                        <div class="detail-label" data-en="Based in" data-it="Sede">Based in</div>
                         <div class="detail-value">Torre del Greco, Naples — Italy</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">Focus Areas</div>
+                        <div class="detail-label" data-en="Focus Areas" data-it="Aree di Focus">Focus Areas</div>
                         <div class="detail-value">TCMS, Embedded Systems, HMI, Diagnostics</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">Industry</div>
-                        <div class="detail-value">Railway & Transportation</div>
+                        <div class="detail-label" data-en="Industry" data-it="Settore">Industry</div>
+                        <div class="detail-value" data-en="Railway & Transportation" data-it="Ferroviario e Trasporti">Railway & Transportation</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">Languages</div>
-                        <div class="detail-value">Italian, English</div>
+                        <div class="detail-label" data-en="Languages" data-it="Lingue">Languages</div>
+                        <div class="detail-value" data-en="Italian, English" data-it="Italiano, Inglese">Italian, English</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════ EXPERIENCE ═══════════════ -->
     <section id="experience">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">02</span>
-                <h2 class="section-title">Professional Experience</h2>
+                <h2 class="section-title" data-en="Professional Experience" data-it="Esperienza Professionale">Professional Experience</h2>
                 <div class="section-line"></div>
             </div>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-date">2024 — Present</div>
+                    <div class="timeline-date" data-en="2024 — Present" data-it="2024 — Presente">2024 — Present</div>
                     <h3 class="timeline-role">Software Development Engineer — TCMS</h3>
                     <div class="timeline-company">Hitachi Rail STS · Naples, Italy</div>
-                    <p class="timeline-desc">Developing and maintaining onboard monitoring and diagnostic software for Train Control and Monitoring Systems. Designing HMI pages for real-time operational and diagnostic information. Owning feature implementation from requirements analysis to testing support and documentation.</p>
+                    <p class="timeline-desc" data-en="Developing and maintaining onboard monitoring and diagnostic software for Train Control and Monitoring Systems. Designing HMI pages for real-time operational and diagnostic information. Owning feature implementation from requirements analysis to testing support and documentation." data-it="Sviluppo e manutenzione del software di monitoraggio e diagnostica di bordo per sistemi TCMS. Progettazione di pagine HMI per informazioni operative e diagnostiche in tempo reale. Gestione end-to-end dall'analisi dei requisiti al supporto ai test e alla documentazione.">Developing and maintaining onboard monitoring and diagnostic software for Train Control and Monitoring Systems. Designing HMI pages for real-time operational and diagnostic information. Owning feature implementation from requirements analysis to testing support and documentation.</p>
                     <div class="timeline-projects">
                         <span class="timeline-project-tag">Trenitalia Rock</span>
                         <span class="timeline-project-tag">Blues (hybrid)</span>
@@ -894,9 +798,9 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-date">2023 — 2024</div>
-                    <h3 class="timeline-role">Software Engineer — TCMS (Consultant)</h3>
+                    <h3 class="timeline-role" data-en="Software Engineer — TCMS (Consultant)" data-it="Software Engineer — TCMS (Consulente)">Software Engineer — TCMS (Consultant)</h3>
                     <div class="timeline-company">Akronos Technologies S.r.l. (for Hitachi Rail STS) · Naples, Italy</div>
-                    <p class="timeline-desc">Supported development and integration of TCMS diagnostic and monitoring software for regional railway platforms. Implemented new diagnostic features, maintained train databases, and worked on Ethernet-based communication between onboard control units.</p>
+                    <p class="timeline-desc" data-en="Supported development and integration of TCMS diagnostic and monitoring software for regional railway platforms. Implemented new diagnostic features, maintained train databases, and worked on Ethernet-based communication between onboard control units." data-it="Supporto allo sviluppo e all'integrazione del software diagnostico e di monitoraggio TCMS per piattaforme ferroviarie regionali. Implementazione di nuove funzionalità diagnostiche, manutenzione dei database di bordo e sviluppo della comunicazione Ethernet tra unità di controllo.">Supported development and integration of TCMS diagnostic and monitoring software for regional railway platforms. Implemented new diagnostic features, maintained train databases, and worked on Ethernet-based communication between onboard control units.</p>
                     <div class="timeline-projects">
                         <span class="timeline-project-tag">Trenitalia Rock</span>
                         <span class="timeline-project-tag">Trenitalia Blues</span>
@@ -907,7 +811,7 @@
                     <div class="timeline-date">2021 — 2023</div>
                     <h3 class="timeline-role">Track Engineer & Firmware Engineer</h3>
                     <div class="timeline-company">UniNa Corse Electric Team (Formula Student) · Naples, Italy</div>
-                    <p class="timeline-desc">Developed telemetry software for real-time data acquisition and analysis from vehicle sensors. Designed vehicle dashboard and supported firmware development for embedded systems. Collaborated with drivers and engineers to improve performance through data-driven insights.</p>
+                    <p class="timeline-desc" data-en="Developed telemetry software for real-time data acquisition and analysis from vehicle sensors. Designed vehicle dashboard and supported firmware development for embedded systems. Collaborated with drivers and engineers to improve performance through data-driven insights." data-it="Sviluppo del software di telemetria per l'acquisizione e l'analisi dati in tempo reale dai sensori del veicolo. Progettazione della dashboard di bordo e supporto allo sviluppo firmware per sistemi embedded. Collaborazione con piloti e ingegneri per migliorare le prestazioni attraverso analisi data-driven.">Developed telemetry software for real-time data acquisition and analysis from vehicle sensors. Designed vehicle dashboard and supported firmware development for embedded systems. Collaborated with drivers and engineers to improve performance through data-driven insights.</p>
                     <div class="timeline-projects">
                         <span class="timeline-project-tag">Python</span>
                         <span class="timeline-project-tag">C</span>
@@ -920,18 +824,17 @@
         </div>
     </section>
 
-    <!-- ═══════════════ SKILLS ═══════════════ -->
     <section id="skills">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">03</span>
-                <h2 class="section-title">Technical Skills</h2>
+                <h2 class="section-title" data-en="Technical Skills" data-it="Competenze Tecniche">Technical Skills</h2>
                 <div class="section-line"></div>
             </div>
             <div class="skills-grid">
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg></div>
-                    <h3>Languages</h3>
+                    <h3 data-en="Languages" data-it="Linguaggi">Languages</h3>
                     <div class="skill-list">
                         <span class="skill-item">C</span>
                         <span class="skill-item">Python</span>
@@ -943,18 +846,18 @@
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 8.68a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
-                    <h3>Engineering</h3>
+                    <h3 data-en="Engineering" data-it="Ingegneria">Engineering</h3>
                     <div class="skill-list">
-                        <span class="skill-item">Requirements Analysis</span>
-                        <span class="skill-item">System Design</span>
+                        <span class="skill-item" data-en="Requirements Analysis" data-it="Analisi Requisiti">Requirements Analysis</span>
+                        <span class="skill-item" data-en="System Design" data-it="Progettazione di Sistema">System Design</span>
                         <span class="skill-item">Debugging</span>
                         <span class="skill-item">Testing</span>
-                        <span class="skill-item">Documentation</span>
+                        <span class="skill-item" data-en="Documentation" data-it="Documentazione">Documentation</span>
                     </div>
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-                    <h3>Tools & Platforms</h3>
+                    <h3 data-en="Tools & Platforms" data-it="Strumenti e Piattaforme">Tools & Platforms</h3>
                     <div class="skill-list">
                         <span class="skill-item">GitHub</span>
                         <span class="skill-item">SVN</span>
@@ -966,28 +869,28 @@
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
-                    <h3>Domains</h3>
+                    <h3 data-en="Domains" data-it="Domini">Domains</h3>
                     <div class="skill-list">
-                        <span class="skill-item">Embedded Systems</span>
+                        <span class="skill-item" data-en="Embedded Systems" data-it="Sistemi Embedded">Embedded Systems</span>
                         <span class="skill-item">TCMS</span>
-                        <span class="skill-item">Onboard Diagnostics</span>
-                        <span class="skill-item">HMI Design</span>
-                        <span class="skill-item">Ethernet Comm.</span>
+                        <span class="skill-item" data-en="Onboard Diagnostics" data-it="Diagnostica di Bordo">Onboard Diagnostics</span>
+                        <span class="skill-item" data-en="HMI Design" data-it="Progettazione HMI">HMI Design</span>
+                        <span class="skill-item" data-en="Ethernet Comm." data-it="Comm. Ethernet">Ethernet Comm.</span>
                     </div>
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-                    <h3>Methodologies</h3>
+                    <h3 data-en="Methodologies" data-it="Metodologie">Methodologies</h3>
                     <div class="skill-list">
                         <span class="skill-item">SDLC</span>
-                        <span class="skill-item">Cross-team Collaboration</span>
-                        <span class="skill-item">End-to-end Ownership</span>
+                        <span class="skill-item" data-en="Cross-team Collaboration" data-it="Collaborazione Cross-team">Cross-team Collaboration</span>
+                        <span class="skill-item" data-en="End-to-end Ownership" data-it="Ownership End-to-end">End-to-end Ownership</span>
                         <span class="skill-item">Agile</span>
                     </div>
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M12 17v5"/><path d="M5 8h14a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V9a1 1 0 011-1z"/><circle cx="7.5" cy="11" r="1"/><circle cx="16.5" cy="11" r="1"/></svg></div>
-                    <h3>Protocols</h3>
+                    <h3 data-en="Protocols" data-it="Protocolli">Protocols</h3>
                     <div class="skill-list">
                         <span class="skill-item">Ethernet</span>
                         <span class="skill-item">LoRa</span>
@@ -999,40 +902,38 @@
         </div>
     </section>
 
-    <!-- ═══════════════ EDUCATION ═══════════════ -->
     <section id="education">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">04</span>
-                <h2 class="section-title">Education</h2>
+                <h2 class="section-title" data-en="Education" data-it="Formazione">Education</h2>
                 <div class="section-line"></div>
             </div>
             <div class="edu-grid">
                 <div class="edu-card reveal">
-                    <div class="edu-institution">University of Naples Federico II</div>
-                    <h3 class="edu-degree">Bachelor's Degree in Computer Engineering</h3>
-                    <p class="edu-desc">Foundation in computer science, software engineering, digital systems, and electrical engineering.</p>
+                    <div class="edu-institution" data-en="University of Naples Federico II" data-it="Università degli Studi di Napoli Federico II">University of Naples Federico II</div>
+                    <h3 class="edu-degree" data-en="Bachelor's Degree in Computer Engineering" data-it="Laurea Triennale in Ingegneria Informatica">Bachelor's Degree in Computer Engineering</h3>
+                    <p class="edu-desc" data-en="Foundation in computer science, software engineering, digital systems, and electrical engineering." data-it="Fondamenti di informatica, ingegneria del software, sistemi digitali e ingegneria elettrica.">Foundation in computer science, software engineering, digital systems, and electrical engineering.</p>
                 </div>
                 <div class="edu-card reveal">
-                    <div class="edu-institution">University of Naples Federico II</div>
+                    <div class="edu-institution" data-en="University of Naples Federico II" data-it="Università degli Studi di Napoli Federico II">University of Naples Federico II</div>
                     <h3 class="edu-degree">Apple Developer Academy</h3>
-                    <p class="edu-desc">iOS Development Program — intensive hands-on training in app design and development with Apple technologies.</p>
+                    <p class="edu-desc" data-en="iOS Development Program — intensive hands-on training in app design and development with Apple technologies." data-it="Programma di Sviluppo iOS — formazione intensiva e pratica nella progettazione e sviluppo di app con tecnologie Apple.">iOS Development Program — intensive hands-on training in app design and development with Apple technologies.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════ CONTACT ═══════════════ -->
     <section id="contact">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">05</span>
-                <h2 class="section-title">Let's Connect</h2>
+                <h2 class="section-title" data-en="Let's Connect" data-it="Contatti">Let's Connect</h2>
                 <div class="section-line"></div>
             </div>
             <div class="contact-grid">
                 <div class="contact-text reveal">
-                    <p>Whether you're looking for a software engineer with railway domain expertise, want to discuss embedded systems, or just want to say hello — I'd love to hear from you.</p>
+                    <p data-en="Whether you're looking for a software engineer with railway domain expertise, want to discuss embedded systems, or just want to say hello — I'd love to hear from you." data-it="Che tu stia cercando un software engineer con esperienza nel dominio ferroviario, voglia discutere di sistemi embedded, o semplicemente salutare — sarò felice di sentirti.">Whether you're looking for a software engineer with railway domain expertise, want to discuss embedded systems, or just want to say hello — I'd love to hear from you.</p>
                     <a href="mailto:girolamopinto1@gmail.com" class="contact-email">girolamopinto1@gmail.com</a>
                 </div>
                 <div class="social-links reveal">
@@ -1044,7 +945,7 @@
                             <div class="social-link-name">LinkedIn</div>
                             <div class="social-link-handle">girolamo-pinto</div>
                         </div>
-                        <span class="social-link-arrow"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+                        <span class="social-link-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
                     </a>
                     <a href="https://github.com/girpinto" target="_blank" rel="noopener" class="social-link">
                         <div class="social-link-icon">
@@ -1054,7 +955,7 @@
                             <div class="social-link-name">GitHub</div>
                             <div class="social-link-handle">girpinto</div>
                         </div>
-                        <span class="social-link-arrow"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+                        <span class="social-link-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
                     </a>
                     <a href="https://www.instagram.com/girolamopinto/" target="_blank" rel="noopener" class="social-link">
                         <div class="social-link-icon">
@@ -1064,41 +965,37 @@
                             <div class="social-link-name">Instagram</div>
                             <div class="social-link-handle">@girolamopinto</div>
                         </div>
-                        <span class="social-link-arrow"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+                        <span class="social-link-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
                     </a>
                     <a href="tel:+393395681893" class="social-link">
                         <div class="social-link-icon">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                         </div>
                         <div>
-                            <div class="social-link-name">Phone</div>
+                            <div class="social-link-name" data-en="Phone" data-it="Telefono">Phone</div>
                             <div class="social-link-handle">+39 339 568 1893</div>
                         </div>
-                        <span class="social-link-arrow"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+                        <span class="social-link-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
     <footer>
         <span>&copy; 2026 Girolamo Pinto</span>
-        <span>Designed with precision</span>
+        <span data-en="Designed with precision" data-it="Progettato con precisione">Designed with precision</span>
     </footer>
 
     <script>
-        // ── Nav scroll effect ──
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
+        var nav = document.getElementById('nav');
+        window.addEventListener('scroll', function() {
             nav.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // ── Mobile nav toggle ──
-        const navToggle = document.getElementById('navToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        navToggle.addEventListener('click', () => {
+        var navToggle = document.getElementById('navToggle');
+        var navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', function() {
             navLinks.classList.toggle('open');
         });
 
@@ -1106,27 +1003,56 @@
             navLinks.classList.remove('open');
         }
 
-        // ── Scroll reveal ──
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        var reveals = document.querySelectorAll('.reveal');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        reveals.forEach(function(el) { observer.observe(el); });
 
-        reveals.forEach(el => observer.observe(el));
-
-        // ── Smooth scroll for anchor links ──
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                var target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-en]').forEach(function(el) {
+                var text = el.getAttribute('data-' + lang);
+                if (!text) return;
+                var svg = el.querySelector('svg');
+                if (svg) {
+                    var svgHtml = svg.outerHTML;
+                    el.innerHTML = text + ' ' + svgHtml;
+                } else {
+                    el.textContent = text;
+                }
+            });
+
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+            document.getElementById('langIt').classList.toggle('active', lang === 'it');
+
+            try { localStorage.setItem('lang', lang); } catch(e) {}
+        }
+
+        try {
+            var saved = localStorage.getItem('lang');
+            if (saved) setLang(saved);
+        } catch(e) {}
+
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') { e.preventDefault(); return; }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
+            if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return; }
+            if (e.ctrlKey && e.key === 's') { e.preventDefault(); return; }
         });
     </script>
 </body>
