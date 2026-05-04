@@ -345,17 +345,34 @@
     <script>
         var arrowSvg = '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
+        function countWords(html) {
+            var temp = document.createElement('div');
+            temp.innerHTML = html;
+            var body = temp.querySelector('.story-body');
+            if (!body) return 0;
+            var text = body.textContent || '';
+            return text.split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+        }
+
+        function calcReadingTime(wordCount) {
+            var minutes = Math.ceil(wordCount / 200);
+            if (minutes < 1) minutes = 1;
+            return minutes + ' min di lettura';
+        }
+
         function buildCard(story, index) {
             var card = document.createElement('a');
             card.href = 'storie/' + story.file;
             card.className = 'story-card';
             card.style.transitionDelay = (index * 0.12) + 's';
 
+            var lettura = story.lettura || '';
+
             card.innerHTML =
                 '<div class="story-meta">' +
                     '<span class="story-date">' + story.data + '</span>' +
                     '<span class="story-tag">' + story.tag + '</span>' +
-                    '<span class="story-reading">' + story.lettura + '</span>' +
+                    '<span class="story-reading" id="reading-' + index + '">' + lettura + '</span>' +
                 '</div>' +
                 '<h2 class="story-title">' + story.titolo + '</h2>' +
                 '<p class="story-excerpt">' + story.estratto + '</p>' +
@@ -384,6 +401,16 @@
                     stories.forEach(function(story, i) {
                         var card = buildCard(story, i);
                         container.appendChild(card);
+
+                        fetch('storie/' + story.file)
+                            .then(function(r) { return r.text(); })
+                            .then(function(html) {
+                                var words = countWords(html);
+                                var time = calcReadingTime(words);
+                                var el = document.getElementById('reading-' + i);
+                                if (el) el.textContent = time;
+                            })
+                            .catch(function() {});
                     });
 
                     setTimeout(function() {
