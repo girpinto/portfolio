@@ -1,0 +1,26 @@
+[
+    {
+        "file": "esempio-racconto.html",
+        "titolo": "Titolo del primo racconto",
+        "data": "Maggio 2026",
+        "tag": "Fantascienza",
+        "lettura": "8 min di lettura",
+        "estratto": "Qui va un breve estratto del racconto, le prime righe che catturano l'attenzione del lettore e lo invogliano a cliccare per leggere la storia completa."
+    },
+    {
+        "file": "secondo-racconto.html",
+        "titolo": "Titolo del secondo racconto",
+        "data": "Aprile 2026",
+        "tag": "Racconto breve",
+        "lettura": "5 min di lettura",
+        "estratto": "Un altro estratto che anticipa i temi della storia. Puoi scrivere qui le prime righe del tuo racconto per dare un assaggio al lettore."
+    },
+    {
+        "file": "terzo-racconto.html",
+        "titolo": "Titolo del terzo racconto",
+        "data": "Marzo 2026",
+        "tag": "Narrativa",
+        "lettura": "12 min di lettura",
+        "estratto": "Un terzo esempio. Quando avrai i tuoi racconti pronti, sostituisci questi placeholder con i tuoi titoli, estratti e link."
+    }
+]
