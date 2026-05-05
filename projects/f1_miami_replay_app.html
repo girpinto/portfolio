@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miami Grand Prix — Race Replay</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #0a0a0f;
+        color: #e0e0e0;
+        overflow-x: hidden;
+    }
+
+    .header {
+        padding: 1.5rem 2rem;
+        background: #111118;
+        border-bottom: 1px solid #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header h1 {
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+    .header h1 span { color: #e8002d; }
+    .header-info {
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .main {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        height: calc(100vh - 72px);
+    }
+
+    .track-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .track-container {
+        flex: 1;
+        position: relative;
+        padding: 2rem;
+    }
+
+    .track-svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .controls {
+        padding: 1rem 2rem;
+        background: #111118;
+        border-top: 1px solid #222;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .play-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #e8002d;
+        background: transparent;
+        color: #e8002d;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    .play-btn:hover {
+        background: #e8002d;
+        color: #fff;
+    }
+
+    .timeline {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .timeline-bar {
+        width: 100%;
+        height: 6px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #222;
+        border-radius: 3px;
+        outline: none;
+        cursor: pointer;
+    }
+    .timeline-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #e8002d;
+        cursor: pointer;
+    }
+
+    .timeline-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #666;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .speed-btns {
+        display: flex;
+        gap: 0.3rem;
+    }
+    .speed-btn {
+        padding: 0.25rem 0.6rem;
+        border: 1px solid #333;
+        background: transparent;
+        color: #888;
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .speed-btn.active {
+        border-color: #e8002d;
+        color: #e8002d;
+    }
+
+    .sidebar {
+        background: #111118;
+        border-left: 1px solid #222;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #333 #111118;
+    }
+
+    .sidebar-header {
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid #222;
+        font-size: 0.75rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: sticky;
+        top: 0;
+        background: #111118;
+        z-index: 10;
+    }
+
+    .driver-row {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1.2rem;
+        border-bottom: 1px solid #1a1a22;
+        transition: background 0.2s;
+        cursor: default;
+        gap: 0.6rem;
+    }
+    .driver-row:hover {
+        background: #1a1a22;
+    }
+
+    .driver-pos {
+        width: 24px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #888;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .driver-color {
+        width: 3px;
+        height: 24px;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .driver-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .driver-code {
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .driver-team {
+        font-size: 0.65rem;
+        color: #555;
+    }
+
+    .driver-gap {
+        font-size: 0.75rem;
+        color: #666;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        min-width: 60px;
+    }
+
+    .driver-status {
+        font-size: 0.6rem;
+        color: #e8002d;
+        text-transform: uppercase;
+    }
+
+    .lap-counter {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        margin-right: 1rem;
+        min-width: 100px;
+        font-variant-numeric: tabular-nums;
+    }
+    .lap-counter span {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .pit-indicator {
+        font-size: 0.55rem;
+        background: #ff8000;
+        color: #000;
+        padding: 1px 4px;
+        border-radius: 2px;
+        font-weight: 600;
+        margin-left: auto;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1><span>F1</span> Miami Grand Prix</h1>
+    <div class="header-info">Miami International Autodrome — 57 Laps</div>
+</div>
+
+<div class="main">
+    <div class="track-panel">
+        <div class="track-container">
+            <svg class="track-svg" viewBox="-50 267 1100 465" preserveAspectRatio="xMidYMid meet" id="trackSvg">
+                <defs>
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <!-- Track outline -->
+                <polyline id="trackPath" fill="none" stroke="#222" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"
+                    points="589,630 385,522 370,510 370,492 405,459 409,403 417,389 433,375 480,355 536,353 570,364 728,443 760,443 811,412 837,408 857,413 896,442 920,449 955,440 987,418 1000,392 996,368 974,354 922,358 822,344 620,355 592,349 519,324 477,317 417,319 370,328 316,345 184,400 57,469 50,478 49,486 93,517 98,531 96,546 83,561 26,570 0,609 14,623 5,672 13,682 882,674 893,662 890,652 878,643 844,623 823,618 789,622 738,649 692,660 644,655 589,630" />
+                <polyline fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    points="589,630 385,522 370,510 370,492 405,459 409,403 417,389 433,375 480,355 536,353 570,364 728,443 760,443 811,412 837,408 857,413 896,442 920,449 955,440 987,418 1000,392 996,368 974,354 922,358 822,344 620,355 592,349 519,324 477,317 417,319 370,328 316,345 184,400 57,469 50,478 49,486 93,517 98,531 96,546 83,561 26,570 0,609 14,623 5,672 13,682 882,674 893,662 890,652 878,643 844,623 823,618 789,622 738,649 692,660 644,655 589,630" />
+                <!-- Start/finish line -->
+                <line x1="589" y1="620" x2="589" y2="640" stroke="#fff" stroke-width="2" opacity="0.6"/>
+                <text x="595" y="618" fill="#555" font-size="9" font-family="monospace">S/F</text>
+                <!-- Turn labels -->
+                
+                <!-- Driver dots will be added by JS -->
+            </svg>
+        </div>
+        <div class="controls">
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">&#9654;</button>
+            <div class="lap-counter" id="lapCounter">Lap <span>0/57</span></div>
+            <div class="timeline">
+                <input type="range" class="timeline-bar" id="timeSlider" min="0" max="1000" value="0" oninput="onSlider(this.value)">
+                <div class="timeline-info">
+                    <span id="timeElapsed">0:00</span>
+                    <span id="timeTotal">0:00</span>
+                </div>
+            </div>
+            <div class="speed-btns">
+                <button class="speed-btn" onclick="setSpeed(1)">1x</button>
+                <button class="speed-btn active" onclick="setSpeed(5)">5x</button>
+                <button class="speed-btn" onclick="setSpeed(15)">15x</button>
+                <button class="speed-btn" onclick="setSpeed(30)">30x</button>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-header">Live Standings</div>
+        <div id="standings"></div>
+    </div>
+</div>
+
+<script>
+var RACE = {"race_name": "Miami Grand Prix", "circuit": "Miami International Autodrome", "total_laps": 57, "race_duration": 770.7909999999999, "drivers": [{"id": "antonelli", "code": "ANT", "name": "Andrea Kimi Antonelli", "team": "Mercedes", "color": "#27F4D2", "grid": 1, "result": "1", "status": "Finished", "laps": [{"lap": 1, "time": 97.243, "cum": 97.243, "pos": 2}, {"lap": 2, "time": 92.936, "cum": 190.179, "pos": 2}, {"lap": 3, "time": 93.22399999999999, "cum": 283.403, "pos": 2}, {"lap": 4, "time": 93.586, "cum": 376.98900000000003, "pos": 1}, {"lap": 5, "time": 94.602, "cum": 471.591, "pos": 2}, {"lap": 56, "time": 92.586, "cum": 564.177, "pos": 1}, {"lap": 57, "time": 93.092, "cum": 657.269, "pos": 1}], "pits": [{"lap": 26, "duration": 22.128}]}, {"id": "max_verstappen", "code": "VER", "name": "Max Verstappen", "team": "Red Bull", "color": "#3671C6", "grid": 2, "result": "5", "status": "Finished", "laps": [{"lap": 1, "time": 104.911, "cum": 104.911, "pos": 9}, {"lap": 2, "time": 93.464, "cum": 198.375, "pos": 8}, {"lap": 3, "time": 93.239, "cum": 291.61400000000003, "pos": 8}, {"lap": 4, "time": 93.536, "cum": 385.15000000000003, "pos": 8}, {"lap": 5, "time": 94.09, "cum": 479.24, "pos": 8}, {"lap": 56, "time": 95.577, "cum": 574.817, "pos": 6}, {"lap": 57, "time": 94.614, "cum": 669.431, "pos": 5}], "pits": [{"lap": 6, "duration": 22.547}]}, {"id": "leclerc", "code": "LEC", "name": "Charles Leclerc", "team": "Ferrari", "color": "#E8002D", "grid": 3, "result": "8", "status": "Finished", "laps": [{"lap": 1, "time": 96.094, "cum": 96.094, "pos": 1}, {"lap": 2, "time": 93.036, "cum": 189.13, "pos": 1}, {"lap": 3, "time": 93.357, "cum": 282.48699999999997, "pos": 1}, {"lap": 4, "time": 94.72999999999999, "cum": 377.217, "pos": 2}, {"lap": 5, "time": 93.697, "cum": 470.914, "pos": 1}, {"lap": 56, "time": 94.211, "cum": 565.125, "pos": 4}, {"lap": 57, "time": 109.834, "cum": 674.9590000000001, "pos": 6}], "pits": [{"lap": 21, "duration": 23.386}]}, {"id": "norris", "code": "NOR", "name": "Lando Norris", "team": "McLaren", "color": "#FF8000", "grid": 4, "result": "2", "status": "Finished", "laps": [{"lap": 1, "time": 98.11500000000001, "cum": 98.11500000000001, "pos": 3}, {"lap": 2, "time": 92.77000000000001, "cum": 190.88500000000002, "pos": 3}, {"lap": 3, "time": 93.263, "cum": 284.148, "pos": 3}, {"lap": 4, "time": 93.814, "cum": 377.962, "pos": 3}, {"lap": 5, "time": 93.842, "cum": 471.804, "pos": 3}, {"lap": 56, "time": 92.84899999999999, "cum": 564.653, "pos": 2}, {"lap": 57, "time": 93.47399999999999, "cum": 658.127, "pos": 2}], "pits": [{"lap": 27, "duration": 22.565}]}, {"id": "russell", "code": "RUS", "name": "George Russell", "team": "Mercedes", "color": "#27F4D2", "grid": 5, "result": "4", "status": "Finished", "laps": [{"lap": 1, "time": 99.25800000000001, "cum": 99.25800000000001, "pos": 5}, {"lap": 2, "time": 93.194, "cum": 192.452, "pos": 5}, {"lap": 3, "time": 93.574, "cum": 286.026, "pos": 4}, {"lap": 4, "time": 93.87299999999999, "cum": 379.899, "pos": 4}, {"lap": 5, "time": 93.837, "cum": 473.736, "pos": 4}, {"lap": 56, "time": 94.187, "cum": 567.923, "pos": 5}, {"lap": 57, "time": 94.542, "cum": 662.465, "pos": 4}], "pits": [{"lap": 20, "duration": 22.042}]}, {"id": "hamilton", "code": "HAM", "name": "Lewis Hamilton", "team": "Ferrari", "color": "#E8002D", "grid": 6, "result": "6", "status": "Finished", "laps": [{"lap": 1, "time": 100.68299999999999, "cum": 100.68299999999999, "pos": 6}, {"lap": 2, "time": 93.545, "cum": 194.228, "pos": 6}, {"lap": 3, "time": 93.789, "cum": 288.017, "pos": 6}, {"lap": 4, "time": 93.971, "cum": 381.988, "pos": 6}, {"lap": 5, "time": 94.184, "cum": 476.172, "pos": 6}, {"lap": 56, "time": 94.56700000000001, "cum": 570.739, "pos": 7}, {"lap": 57, "time": 94.95, "cum": 665.6890000000001, "pos": 7}], "pits": [{"lap": 27, "duration": 23.779}]}, {"id": "piastri", "code": "PIA", "name": "Oscar Piastri", "team": "McLaren", "color": "#FF8000", "grid": 7, "result": "3", "status": "Finished", "laps": [{"lap": 1, "time": 98.7, "cum": 98.7, "pos": 4}, {"lap": 2, "time": 93.525, "cum": 192.22500000000002, "pos": 4}, {"lap": 3, "time": 94.364, "cum": 286.58900000000006, "pos": 5}, {"lap": 4, "time": 94.089, "cum": 380.67800000000005, "pos": 5}, {"lap": 5, "time": 93.491, "cum": 474.16900000000004, "pos": 5}, {"lap": 56, "time": 93.24600000000001, "cum": 567.4150000000001, "pos": 3}, {"lap": 57, "time": 93.237, "cum": 660.652, "pos": 3}], "pits": [{"lap": 28, "duration": 23.024}]}, {"id": "colapinto", "code": "COL", "name": "Franco Colapinto", "team": "Alpine F1 Team", "color": "#FF87BC", "grid": 8, "result": "7", "status": "Finished", "laps": [{"lap": 1, "time": 101.556, "cum": 101.556, "pos": 7}, {"lap": 2, "time": 94.113, "cum": 195.66899999999998, "pos": 7}, {"lap": 3, "time": 94.46000000000001, "cum": 290.129, "pos": 7}, {"lap": 4, "time": 94.339, "cum": 384.468, "pos": 7}, {"lap": 5, "time": 94.73599999999999, "cum": 479.204, "pos": 7}, {"lap": 55, "time": 93.33500000000001, "cum": 572.539, "pos": 8}, {"lap": 56, "time": 93.059, "cum": 665.598, "pos": 8}, {"lap": 57, "time": 93.148, "cum": 758.746, "pos": 8}], "pits": [{"lap": 31, "duration": 23.093}]}, {"id": "gasly", "code": "GAS", "name": "Pierre Gasly", "team": "Alpine F1 Team", "color": "#FF87BC", "grid": 9, "result": "R", "status": "Retired", "laps": [{"lap": 1, "time": 105.243, "cum": 105.243, "pos": 12}, {"lap": 2, "time": 95.576, "cum": 200.819, "pos": 11}, {"lap": 3, "time": 95.04599999999999, "cum": 295.865, "pos": 11}, {"lap": 4, "time": 94.856, "cum": 390.721, "pos": 11}], "pits": []}, {"id": "hulkenberg", "code": "HUL", "name": "Nico Hülkenberg", "team": "Audi", "color": "#FFFFFF", "grid": 10, "result": "R", "status": "Retired", "laps": [{"lap": 1, "time": 114.251, "cum": 114.251, "pos": 22}, {"lap": 2, "time": 120.274, "cum": 234.525, "pos": 22}, {"lap": 3, "time": 94.93, "cum": 329.45500000000004, "pos": 22}, {"lap": 4, "time": 94.523, "cum": 423.97800000000007, "pos": 22}], "pits": [{"lap": 1, "duration": 33.71}]}, {"id": "lawson", "code": "LAW", "name": "Liam Lawson", "team": "RB F1 Team", "color": "#6692FF", "grid": 11, "result": "R", "status": "Retired", "laps": [{"lap": 1, "time": 102.84100000000001, "cum": 102.84100000000001, "pos": 8}, {"lap": 2, "time": 97.07900000000001, "cum": 199.92000000000002, "pos": 9}, {"lap": 3, "time": 94.814, "cum": 294.73400000000004, "pos": 9}, {"lap": 4, "time": 95.184, "cum": 389.918, "pos": 9}], "pits": []}, {"id": "bearman", "code": "BEA", "name": "Oliver Bearman", "team": "Haas F1 Team", "color": "#B6BABD", "grid": 12, "result": "11", "status": "Lapped", "laps": [{"lap": 1, "time": 105.75800000000001, "cum": 105.75800000000001, "pos": 14}, {"lap": 2, "time": 96.946, "cum": 202.704, "pos": 13}, {"lap": 3, "time": 94.892, "cum": 297.596, "pos": 13}, {"lap": 4, "time": 95.041, "cum": 392.637, "pos": 13}, {"lap": 5, "time": 95.79599999999999, "cum": 488.433, "pos": 11}, {"lap": 55, "time": 95.896, "cum": 584.329, "pos": 11}, {"lap": 56, "time": 94.51400000000001, "cum": 678.843, "pos": 11}], "pits": [{"lap": 26, "duration": 23.474}]}, {"id": "sainz", "code": "SAI", "name": "Carlos Sainz", "team": "Williams", "color": "#64C4FF", "grid": 13, "result": "9", "status": "Finished", "laps": [{"lap": 1, "time": 105.235, "cum": 105.235, "pos": 11}, {"lap": 2, "time": 95.88900000000001, "cum": 201.12400000000002, "pos": 12}, {"lap": 3, "time": 95.295, "cum": 296.41900000000004, "pos": 12}, {"lap": 4, "time": 94.844, "cum": 391.26300000000003, "pos": 12}, {"lap": 5, "time": 96.681, "cum": 487.944, "pos": 10}, {"lap": 55, "time": 93.951, "cum": 581.895, "pos": 9}, {"lap": 56, "time": 94.34100000000001, "cum": 676.236, "pos": 9}, {"lap": 57, "time": 94.555, "cum": 770.7909999999999, "pos": 9}], "pits": [{"lap": 28, "duration": 23.595}]}, {"id": "ocon", "code": "OCO", "name": "Esteban Ocon", "team": "Haas F1 Team", "color": "#B6BABD", "grid": 14, "result": "13", "status": "Lapped", "laps": [{"lap": 1, "time": 105.5, "cum": 105.5, "pos": 13}, {"lap": 2, "time": 97.468, "cum": 202.96800000000002, "pos": 14}, {"lap": 3, "time": 95.181, "cum": 298.149, "pos": 14}, {"lap": 4, "time": 95.464, "cum": 393.613, "pos": 14}, {"lap": 5, "time": 95.306, "cum": 488.919, "pos": 12}, {"lap": 55, "time": 94.416, "cum": 583.335, "pos": 13}, {"lap": 56, "time": 94.407, "cum": 677.7420000000001, "pos": 13}], "pits": [{"lap": 31, "duration": 24.027}]}, {"id": "albon", "code": "ALB", "name": "Alexander Albon", "team": "Williams", "color": "#64C4FF", "grid": 15, "result": "10", "status": "Finished", "laps": [{"lap": 1, "time": 104.983, "cum": 104.983, "pos": 10}, {"lap": 2, "time": 95.404, "cum": 200.387, "pos": 10}, {"lap": 3, "time": 94.932, "cum": 295.319, "pos": 10}, {"lap": 4, "time": 94.77000000000001, "cum": 390.08900000000006, "pos": 10}, {"lap": 5, "time": 95.888, "cum": 485.9770000000001, "pos": 9}, {"lap": 55, "time": 94.10900000000001, "cum": 580.0860000000001, "pos": 10}, {"lap": 56, "time": 94.163, "cum": 674.2490000000001, "pos": 10}, {"lap": 57, "time": 94.298, "cum": 768.5470000000001, "pos": 10}], "pits": [{"lap": 27, "duration": 23.016}]}, {"id": "arvid_lindblad", "code": "LIN", "name": "Arvid Lindblad", "team": "RB F1 Team", "color": "#6692FF", "grid": 16, "result": "14", "status": "Lapped", "laps": [{"lap": 1, "time": 106.549, "cum": 106.549, "pos": 15}, {"lap": 2, "time": 96.74000000000001, "cum": 203.28900000000002, "pos": 15}, {"lap": 3, "time": 96.21000000000001, "cum": 299.499, "pos": 15}, {"lap": 4, "time": 95.655, "cum": 395.154, "pos": 15}, {"lap": 55, "time": 94.482, "cum": 489.63599999999997, "pos": 14}, {"lap": 56, "time": 104.94200000000001, "cum": 594.578, "pos": 14}], "pits": [{"lap": 28, "duration": 22.731}]}, {"id": "alonso", "code": "ALO", "name": "Fernando Alonso", "team": "Aston Martin", "color": "#229971", "grid": 17, "result": "15", "status": "Lapped", "laps": [{"lap": 1, "time": 109.952, "cum": 109.952, "pos": 20}, {"lap": 2, "time": 96.62700000000001, "cum": 206.579, "pos": 20}, {"lap": 3, "time": 96.505, "cum": 303.084, "pos": 20}, {"lap": 4, "time": 96.45, "cum": 399.534, "pos": 20}, {"lap": 55, "time": 94.944, "cum": 494.478, "pos": 15}, {"lap": 56, "time": 95.24600000000001, "cum": 589.724, "pos": 15}], "pits": [{"lap": 41, "duration": 23.16}]}, {"id": "stroll", "code": "STR", "name": "Lance Stroll", "team": "Aston Martin", "color": "#229971", "grid": 18, "result": "17", "status": "Lapped", "laps": [{"lap": 1, "time": 107.631, "cum": 107.631, "pos": 16}, {"lap": 2, "time": 96.569, "cum": 204.2, "pos": 16}, {"lap": 3, "time": 97.019, "cum": 301.219, "pos": 17}, {"lap": 4, "time": 96.418, "cum": 397.637, "pos": 17}, {"lap": 55, "time": 96.149, "cum": 493.786, "pos": 17}, {"lap": 56, "time": 94.71600000000001, "cum": 588.502, "pos": 17}], "pits": [{"lap": 21, "duration": 22.63}, {"lap": 37, "duration": 22.09}]}, {"id": "bottas", "code": "BOT", "name": "Valtteri Bottas", "team": "Cadillac F1 Team", "color": "#FFD700", "grid": 19, "result": "18", "status": "Lapped", "laps": [{"lap": 1, "time": 110.494, "cum": 110.494, "pos": 21}, {"lap": 2, "time": 96.788, "cum": 207.28199999999998, "pos": 21}, {"lap": 3, "time": 96.607, "cum": 303.889, "pos": 21}, {"lap": 4, "time": 96.61699999999999, "cum": 400.506, "pos": 21}, {"lap": 55, "time": 99.98400000000001, "cum": 500.49, "pos": 18}], "pits": [{"lap": 6, "duration": 23.529}, {"lap": 21, "duration": 23.827}, {"lap": 30, "duration": 17.173}]}, {"id": "perez", "code": "PER", "name": "Sergio Pérez", "team": "Cadillac F1 Team", "color": "#FFD700", "grid": 20, "result": "16", "status": "Lapped", "laps": [{"lap": 1, "time": 107.924, "cum": 107.924, "pos": 17}, {"lap": 2, "time": 96.783, "cum": 204.707, "pos": 17}, {"lap": 3, "time": 97.009, "cum": 301.716, "pos": 18}, {"lap": 4, "time": 96.307, "cum": 398.023, "pos": 18}, {"lap": 55, "time": 95.25, "cum": 493.273, "pos": 16}, {"lap": 56, "time": 95.25, "cum": 588.523, "pos": 16}], "pits": [{"lap": 29, "duration": 23.228}]}, {"id": "bortoleto", "code": "BOR", "name": "Gabriel Bortoleto", "team": "Audi", "color": "#FFFFFF", "grid": 21, "result": "12", "status": "Lapped", "laps": [{"lap": 1, "time": 109.249, "cum": 109.249, "pos": 18}, {"lap": 2, "time": 96.799, "cum": 206.048, "pos": 19}, {"lap": 3, "time": 96.384, "cum": 302.432, "pos": 19}, {"lap": 4, "time": 96.533, "cum": 398.96500000000003, "pos": 19}, {"lap": 55, "time": 93.5, "cum": 492.46500000000003, "pos": 12}, {"lap": 56, "time": 94.088, "cum": 586.553, "pos": 12}], "pits": [{"lap": 32, "duration": 23.986}]}, {"id": "hadjar", "code": "HAD", "name": "Isack Hadjar", "team": "Red Bull", "color": "#3671C6", "grid": 22, "result": "R", "status": "Retired", "laps": [{"lap": 1, "time": 109.62700000000001, "cum": 109.62700000000001, "pos": 19}, {"lap": 2, "time": 96.068, "cum": 205.695, "pos": 18}, {"lap": 3, "time": 95.188, "cum": 300.883, "pos": 16}, {"lap": 4, "time": 94.833, "cum": 395.716, "pos": 16}], "pits": []}]};
+var TRACK = [[589, 630], [385, 522], [370, 510], [370, 492], [405, 459], [409, 403], [417, 389], [433, 375], [480, 355], [536, 353], [570, 364], [728, 443], [760, 443], [811, 412], [837, 408], [857, 413], [896, 442], [920, 449], [955, 440], [987, 418], [1000, 392], [996, 368], [974, 354], [922, 358], [822, 344], [620, 355], [592, 349], [519, 324], [477, 317], [417, 319], [370, 328], [316, 345], [184, 400], [57, 469], [50, 478], [49, 486], [93, 517], [98, 531], [96, 546], [83, 561], [26, 570], [0, 609], [14, 623], [5, 672], [13, 682], [882, 674], [893, 662], [890, 652], [878, 643], [844, 623], [823, 618], [789, 622], [738, 649], [692, 660], [644, 655], [589, 630]];
+
+// Precompute track distances
+var trackDist = [0];
+for (var i = 1; i < TRACK.length; i++) {
+    var dx = TRACK[i][0] - TRACK[i-1][0];
+    var dy = TRACK[i][1] - TRACK[i-1][1];
+    trackDist.push(trackDist[i-1] + Math.sqrt(dx*dx + dy*dy));
+}
+var totalTrackLen = trackDist[trackDist.length - 1];
+
+function getTrackPoint(fraction) {
+    // fraction 0..1 along the track
+    var target = fraction * totalTrackLen;
+    for (var i = 1; i < trackDist.length; i++) {
+        if (trackDist[i] >= target) {
+            var segStart = trackDist[i-1];
+            var segEnd = trackDist[i];
+            var t = (target - segStart) / (segEnd - segStart);
+            return [
+                TRACK[i-1][0] + t * (TRACK[i][0] - TRACK[i-1][0]),
+                TRACK[i-1][1] + t * (TRACK[i][1] - TRACK[i-1][1])
+            ];
+        }
+    }
+    return TRACK[TRACK.length - 1];
+}
+
+// Create driver dots
+var svg = document.getElementById('trackSvg');
+var dots = {};
+RACE.drivers.forEach(function(d) {
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('id', 'dot-' + d.id);
+
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('r', '8');
+    circle.setAttribute('fill', d.color);
+    circle.setAttribute('stroke', '#000');
+    circle.setAttribute('stroke-width', '1.5');
+    circle.setAttribute('opacity', '0.95');
+    g.appendChild(circle);
+
+    var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('dy', '-12');
+    label.setAttribute('fill', d.color);
+    label.setAttribute('font-size', '9');
+    label.setAttribute('font-family', 'monospace');
+    label.setAttribute('font-weight', '600');
+    label.textContent = d.code;
+    g.appendChild(label);
+
+    svg.appendChild(g);
+    dots[d.id] = g;
+});
+
+// Simulation state
+var playing = false;
+var currentTime = 0;
+var speed = 5;
+var raceDuration = RACE.race_duration;
+var lastFrame = 0;
+
+function getDriverState(driver, time) {
+    if (!driver.laps.length) return { lap:0, fraction:0, position:99, retired:true, inPit:false };
+
+    for (var i = 0; i < driver.laps.length; i++) {
+        if (driver.laps[i].cum > time) {
+            var currentLap = driver.laps[i].lap;
+            var prevCum = i > 0 ? driver.laps[i-1].cum : 0;
+            var lapTime = driver.laps[i].time;
+            var timeInLap = time - prevCum;
+            var fraction = Math.max(0, Math.min(1, timeInLap / lapTime));
+
+            var inPit = false;
+            for (var p = 0; p < driver.pits.length; p++) {
+                var pit = driver.pits[p];
+                if (pit.lap === currentLap && pit.duration > 0) {
+                    var normalLapTime = lapTime - pit.duration;
+                    if (normalLapTime < 0) normalLapTime = lapTime * 0.7;
+                    var pitEntryFraction = normalLapTime / lapTime;
+                    if (fraction >= pitEntryFraction) {
+                        inPit = true;
+                        fraction = pitEntryFraction + (fraction - pitEntryFraction) * 0.5;
+                    }
+                }
+            }
+
+            return {
+                lap: currentLap,
+                fraction: fraction,
+                position: driver.laps[i].pos,
+                retired: false,
+                inPit: inPit
+            };
+        }
+    }
+
+    var lastLap = driver.laps[driver.laps.length - 1];
+    var finished = driver.status === 'Finished' ||
+                   driver.status.indexOf('Lap') !== -1;
+    return {
+        lap: lastLap.lap,
+        fraction: finished ? 1 : lastLap.cum < time ? 1 : 0,
+        position: lastLap.pos,
+        retired: !finished,
+        inPit: false
+    };
+}
+
+function updateDisplay(time) {
+    var states = [];
+
+    RACE.drivers.forEach(function(d) {
+        var state = getDriverState(d, time);
+        states.push({ driver: d, state: state });
+    });
+
+    // ── SORT BY REAL POSITION ──
+    // Use the API position from the most recent completed lap
+    // This is the actual race classification
+    states.sort(function(a, b) {
+        var aRetired = a.state.retired;
+        var bRetired = b.state.retired;
+        if (aRetired && !bRetired) return 1;
+        if (!aRetired && bRetired) return -1;
+        if (aRetired && bRetired) return b.state.lap - a.state.lap;
+
+        // Primary: who has completed more laps is ahead
+        if (a.state.lap !== b.state.lap) return b.state.lap - a.state.lap;
+
+        // Same lap: use the API position (real classification)
+        return a.state.position - b.state.position;
+    });
+
+    // ── UPDATE DOTS WITH OFFSET TO PREVENT OVERLAP ──
+    states.forEach(function(s, idx) {
+        var d = s.driver;
+        var st = s.state;
+        var g = dots[d.id];
+        var pos = idx + 1;
+
+        if (st.retired && time > (d.laps.length ? d.laps[d.laps.length-1].cum : 0) + 5) {
+            g.setAttribute('opacity', '0.15');
+            return;
+        }
+
+        g.setAttribute('opacity', '1');
+
+        // ── KEY FIX: offset fraction by time gap from leader ──
+        // Drivers on the same lap but behind get their fraction reduced
+        // proportionally to their time gap, so they appear behind on track
+        var visualFraction = st.fraction;
+
+        if (idx > 0 && !st.retired) {
+            var leaderState = states[0].state;
+            if (st.lap === leaderState.lap) {
+                // Same lap as leader: offset based on position
+                // Find this driver's last completed lap time vs leader's
+                var myLapIdx = Math.min(st.lap - 1, d.laps.length - 1);
+                var leaderLapIdx = Math.min(st.lap - 1, states[0].driver.laps.length - 1);
+                if (myLapIdx >= 0 && leaderLapIdx >= 0) {
+                    var myCum = d.laps[myLapIdx].cum;
+                    var leaderCum = states[0].driver.laps[leaderLapIdx].cum;
+                    var gap = myCum - leaderCum;
+                    // Convert gap to fraction of a lap (avg lap ~90s)
+                    var avgLap = d.laps[myLapIdx].time || 90;
+                    var fractionOffset = gap / avgLap;
+                    visualFraction = leaderState.fraction - fractionOffset;
+                    // Wrap around
+                    while (visualFraction < 0) visualFraction += 1;
+                    while (visualFraction > 1) visualFraction -= 1;
+                }
+            } else {
+                // Lapped: just use their own fraction
+                visualFraction = st.fraction;
+            }
+        }
+
+        var pt = getTrackPoint(visualFraction);
+        var circle = g.querySelector('circle');
+        var label = g.querySelector('text');
+
+        circle.setAttribute('cx', pt[0]);
+        circle.setAttribute('cy', pt[1]);
+        label.setAttribute('x', pt[0]);
+        label.setAttribute('y', pt[1]);
+
+        // Size: leader biggest
+        var radius = Math.max(5, 11 - pos * 0.3);
+        circle.setAttribute('r', radius);
+
+        // Visual styling
+        if (pos === 1) {
+            circle.setAttribute('stroke', d.color);
+            circle.setAttribute('stroke-width', '3');
+            circle.setAttribute('filter', 'url(#glow)');
+        } else if (st.inPit) {
+            circle.setAttribute('stroke', '#ff8000');
+            circle.setAttribute('stroke-width', '3');
+            circle.setAttribute('filter', '');
+        } else {
+            circle.setAttribute('stroke', '#000');
+            circle.setAttribute('stroke-width', '1.5');
+            circle.setAttribute('filter', '');
+        }
+
+        label.textContent = pos + ' ' + d.code;
+        label.setAttribute('dy', '-' + (radius + 4));
+        label.setAttribute('font-size', pos <= 3 ? '10' : '8');
+
+        // Bring podium to front
+        if (pos <= 3) {
+            svg.appendChild(g);
+        }
+    });
+
+    // ── SIDEBAR ──
+    var html = '';
+    states.forEach(function(s, i) {
+        var d = s.driver;
+        var st = s.state;
+        var pos = i + 1;
+        var gap = '';
+
+        if (i === 0) {
+            gap = 'Leader';
+        } else if (st.retired) {
+            gap = '<span class="driver-status">' + d.status + '</span>';
+        } else {
+            var leaderLap = states[0].state.lap;
+            var lapDiff = leaderLap - st.lap;
+            if (lapDiff >= 1) {
+                gap = '+' + lapDiff + ' Lap' + (lapDiff > 1 ? 's' : '');
+            } else {
+                // Time gap from cumulative lap times
+                var myIdx = Math.min(st.lap - 1, d.laps.length - 1);
+                var leaderIdx = Math.min(st.lap - 1, states[0].driver.laps.length - 1);
+                if (myIdx >= 0 && leaderIdx >= 0) {
+                    var timeDiff = d.laps[myIdx].cum - states[0].driver.laps[leaderIdx].cum;
+                    if (timeDiff < 0) timeDiff = 0;
+                    if (timeDiff < 60) {
+                        gap = '+' + timeDiff.toFixed(1) + 's';
+                    } else {
+                        var m = Math.floor(timeDiff / 60);
+                        var sec = (timeDiff % 60).toFixed(1);
+                        gap = '+' + m + ':' + (parseFloat(sec) < 10 ? '0' : '') + sec;
+                    }
+                }
+            }
+        }
+
+        var pitHtml = '';
+        if (st.inPit) {
+            var pitCount = 0;
+            for (var p = 0; p < d.pits.length; p++) {
+                if (d.pits[p].lap <= st.lap) pitCount++;
+            }
+            pitHtml = '<span class="pit-indicator">PIT ' + pitCount + '</span>';
+        }
+
+        var rowStyle = pos === 1 ? 'border-left:3px solid ' + d.color + ';' : '';
+
+        html += '<div class="driver-row" style="' + rowStyle + '">' +
+            '<div class="driver-pos">' + pos + '</div>' +
+            '<div class="driver-color" style="background:' + d.color + '"></div>' +
+            '<div class="driver-info">' +
+                '<div class="driver-code">' + d.code + '</div>' +
+                '<div class="driver-team">' + d.team + '</div>' +
+            '</div>' +
+            pitHtml +
+            '<div class="driver-gap">' + gap + '</div>' +
+        '</div>';
+    });
+    document.getElementById('standings').innerHTML = html;
+
+    var maxLap = 0;
+    states.forEach(function(s) { if (s.state.lap > maxLap) maxLap = s.state.lap; });
+    document.getElementById('lapCounter').innerHTML = 'Lap <span>' + Math.min(maxLap, RACE.total_laps) + '/' + RACE.total_laps + '</span>';
+
+    var mins = Math.floor(time / 60);
+    var secs = Math.floor(time % 60);
+    document.getElementById('timeElapsed').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+    document.getElementById('timeSlider').value = Math.floor((time / raceDuration) * 1000);
+}
+
+function animate(timestamp) {
+    if (!playing) return;
+    if (!lastFrame) lastFrame = timestamp;
+    var delta = (timestamp - lastFrame) / 1000;
+    lastFrame = timestamp;
+    currentTime = Math.min(currentTime + delta * speed, raceDuration);
+
+    updateDisplay(currentTime);
+
+    if (currentTime >= raceDuration) {
+        playing = false;
+        document.getElementById('playBtn').innerHTML = '&#9654;';
+        return;
+    }
+    requestAnimationFrame(animate);
+}
+
+function togglePlay() {
+    playing = !playing;
+    document.getElementById('playBtn').innerHTML = playing ? '&#9646;&#9646;' : '&#9654;';
+    if (playing) {
+        lastFrame = 0;
+        if (currentTime >= raceDuration) currentTime = 0;
+        requestAnimationFrame(animate);
+    }
+}
+
+function onSlider(val) {
+    currentTime = (val / 1000) * raceDuration;
+    updateDisplay(currentTime);
+}
+
+function setSpeed(s) {
+    speed = s;
+    document.querySelectorAll('.speed-btn').forEach(function(btn) {
+        btn.classList.toggle('active', parseFloat(btn.textContent) === s);
+    });
+}
+
+// Initial display
+var totalMins = Math.floor(raceDuration / 60);
+var totalSecs = Math.floor(raceDuration % 60);
+document.getElementById('timeTotal').textContent = totalMins + ':' + (totalSecs < 10 ? '0' : '') + totalSecs;
+updateDisplay(0);
+</script>
+</body>
+</html>

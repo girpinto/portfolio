@@ -14,6 +14,20 @@
         }
     },
     {
+        "file": "f1-miami-replay.html",
+        "title": "F1 Miami GP — Race Replay Dashboard",
+        "date": "May 2026",
+        "tag": "Data Visualization",
+        "excerpt": "An interactive race replay that reconstructs the Miami Grand Prix from real telemetry data — track visualization, live standings, pit stops, and time-gap calculation, all in a single self-contained HTML file.",
+        "description": "Built a Python pipeline that fetches real race data from the Jolpica/Ergast F1 API (lap times, positions, pit stops), processes it, and generates a fully interactive HTML dashboard. The dashboard renders the Miami International Autodrome from official SVG path data, places all 20 drivers as animated dots, and replays the race with accurate time gaps. Features include play/pause, speed control (1x to 30x), a timeline scrubber, live standings sidebar with real-time gap calculation, pit stop indicators, and leader glow effects.",
+        "motivation": "I wanted to explore how far you can push a single-file web application for sports data visualization — no frameworks, no backend, just vanilla JS rendering real race data. The Python script handles the data engineering; the browser handles the storytelling.",
+        "stack": ["Python", "JavaScript", "SVG", "REST API"],
+        "links": {
+            "live": "https://girpinto.github.io/projects/f1-miami-replay.html",
+            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+        }
+    },
+    {
         "file": "project-placeholder.html",
         "title": "Next Project Title",
         "date": "Coming soon",
