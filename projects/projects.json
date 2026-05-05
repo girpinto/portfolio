@@ -2,7 +2,7 @@
     {
         "file": "hmi-dashboard.html",
         "title": "TCMS Onboard HMI Dashboard",
-        "date": "May 2026",
+        "date": "Apr 2026",
         "tag": "HMI / Frontend",
         "excerpt": "A fully simulated train management dashboard with real-time speed gauge, route tracking, alarm system, and vehicle diagnostics — built as a single-page HTML application.",
         "description": "Designed and built a complete HMI dashboard simulating an onboard TCMS for a regional train running Napoli–Salerno. Features include real-time speed gauge with arc rendering, station-by-station route progress, door status monitoring, traction/brake gauges, alarm management, and environmental data display. The simulation runs autonomously with realistic acceleration, braking, and station-stop cycles.",
