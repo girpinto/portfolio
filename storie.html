@@ -103,13 +103,23 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(212, 168, 67, 0.08) 0%,
+                rgba(212, 168, 67, 0.03) 40%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
             pointer-events: none;
-            opacity: 0.5;
+        }
+
+        .hero:hover::before {
+            opacity: 1;
         }
 
         .hero-label {
@@ -119,6 +129,7 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             margin-bottom: 1.5rem;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -128,6 +139,7 @@
             line-height: 1.2;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
+            z-index: 1;
         }
 
         .hero h1 em { font-style: italic; color: var(--accent); }
@@ -141,6 +153,7 @@
             font-weight: 400;
             font-style: italic;
             line-height: 1.8;
+            z-index: 1;
         }
 
         .divider {
@@ -427,6 +440,26 @@
                     container.innerHTML = '<div class="error-msg"><p>Impossibile caricare le storie. Riprova più tardi.</p></div>';
                 });
         }
+
+        var hero = document.querySelector('.hero');
+        var rafId = null;
+
+        hero.addEventListener('mousemove', function(e) {
+            if (rafId) return;
+            rafId = requestAnimationFrame(function() {
+                var rect = hero.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var y = e.clientY - rect.top;
+                hero.style.setProperty('--mouse-x', x + 'px');
+                hero.style.setProperty('--mouse-y', y + 'px');
+                rafId = null;
+            });
+        });
+
+        hero.addEventListener('mouseleave', function() {
+            hero.style.setProperty('--mouse-x', '50%');
+            hero.style.setProperty('--mouse-y', '50%');
+        });
 
         loadStories();
 
