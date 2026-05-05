@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Girolamo Pinto</title>
+    <meta name="description" content="Engineering projects and prototypes by Girolamo Pinto.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #111114;
+            --bg-card: #16161a;
+            --bg-elevated: #1c1c21;
+            --text-primary: #f0ece4;
+            --text-secondary: #9a958c;
+            --text-muted: #5c584f;
+            --accent: #d4a843;
+            --accent-dim: #b8922e;
+            --accent-glow: rgba(212, 168, 67, 0.15);
+            --border: #2a2a30;
+            --border-light: #3a3a42;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-dim) var(--bg-primary);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 12, 0.85);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .nav-back {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover { color: var(--accent); }
+
+        .nav-back svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .hero {
+            padding: 10rem 2.5rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero h1 em { font-style: italic; color: var(--accent); }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+
+        .hero-stat-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 4rem auto;
+        }
+
+        .projects-section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 2.5rem 6rem;
+        }
+
+        .project-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            position: relative;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 3px;
+            height: calc(100% + 2px);
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-light);
+            transform: translateX(8px);
+        }
+
+        .project-card:hover::before { transform: scaleY(1); }
+
+        .project-card-body {
+            padding: 2.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-tag {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 0.15rem 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .project-date {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .project-excerpt {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1.25rem;
+        }
+
+        .project-stack span {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        .project-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg-elevated);
+        }
+
+        .project-view {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: gap 0.3s;
+        }
+
+        .project-card:hover .project-view { gap: 0.8rem; }
+
+        .project-view svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .project-link:hover { color: var(--accent); }
+
+        .project-link svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .loading-msg {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 3rem;
+            letter-spacing: 1px;
+        }
+
+        .error-msg {
+            text-align: center;
+            padding: 4rem 2rem;
+            border: 1px dashed var(--border);
+        }
+
+        .error-msg p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        footer {
+            padding: 2.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero { padding: 8rem 1.5rem 3rem; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-stat-value { font-size: 1.5rem; }
+            .projects-section { padding: 0 1.5rem 4rem; }
+            .project-card-body { padding: 1.5rem; }
+            .project-footer { padding: 0.75rem 1.5rem; }
+            .project-title { font-size: 1.3rem; }
+            footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">GP_</a>
+        <a href="index.html" class="nav-back">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Portfolio
+        </a>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-label">Engineering Projects</div>
+        <h1>Things I <em>build</em></h1>
+        <p class="hero-desc">Side projects where I take ideas from concept to working prototype. Each one is a self-contained engineering exercise — designed, built, and documented.</p>
+        <div class="hero-stats" id="heroStats"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="projects-section" id="projectsContainer">
+        <div class="loading-msg" id="loadingMsg">Loading projects...</div>
+    </div>
+
+    <footer>
+        <span>&copy; 2026 Girolamo Pinto</span>
+        <a href="index.html">Back to portfolio</a>
+    </footer>
+
+    <script>
+        var arrowSvg = '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        var repoSvg = '<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>';
+        var liveSvg = '<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+
+        function buildCard(project, index) {
+            var card = document.createElement('a');
+            card.href = 'projects/' + project.file;
+            card.className = 'project-card';
+            card.style.transitionDelay = (index * 0.12) + 's';
+
+            var stackHtml = '';
+            if (project.stack && project.stack.length) {
+                stackHtml = '<div class="project-stack">' +
+                    project.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') +
+                    '</div>';
+            }
+
+            var linksHtml = '';
+            if (project.links) {
+                if (project.links.repo) {
+                    linksHtml += '<a href="' + project.links.repo + '" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">' + repoSvg + ' Repo</a>';
+                }
+                if (project.links.live) {
+                    linksHtml += '<a href="' + project.links.live + '" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">' + liveSvg + ' Live</a>';
+                }
+            }
+
+            card.innerHTML =
+                '<div class="project-card-body">' +
+                    '<div class="project-meta">' +
+                        '<span class="project-tag">' + project.tag + '</span>' +
+                        '<span class="project-date">' + project.date + '</span>' +
+                    '</div>' +
+                    '<h2 class="project-title">' + project.title + '</h2>' +
+                    '<p class="project-excerpt">' + project.excerpt + '</p>' +
+                    stackHtml +
+                '</div>' +
+                '<div class="project-footer">' +
+                    '<div class="project-view">Details ' + arrowSvg + '</div>' +
+                    '<div class="project-links">' + linksHtml + '</div>' +
+                '</div>';
+
+            return card;
+        }
+
+        function loadProjects() {
+            var container = document.getElementById('projectsContainer');
+            var loading = document.getElementById('loadingMsg');
+
+            fetch('projects/projects.json')
+                .then(function(r) {
+                    if (!r.ok) throw new Error('Not found');
+                    return r.json();
+                })
+                .then(function(projects) {
+                    loading.remove();
+
+                    // Stats
+                    var stats = document.getElementById('heroStats');
+                    var realProjects = projects.filter(function(p) { return p.date !== 'Coming soon'; });
+                    var tags = [];
+                    realProjects.forEach(function(p) {
+                        if (tags.indexOf(p.tag) === -1) tags.push(p.tag);
+                    });
+                    stats.innerHTML =
+                        '<div class="hero-stat"><div class="hero-stat-value">' + realProjects.length + '</div><div class="hero-stat-label">Projects</div></div>' +
+                        '<div class="hero-stat"><div class="hero-stat-value">' + tags.length + '</div><div class="hero-stat-label">Domains</div></div>';
+
+                    if (projects.length === 0) {
+                        container.innerHTML = '<div class="error-msg"><p>No projects yet. Check back soon.</p></div>';
+                        return;
+                    }
+
+                    projects.forEach(function(project, i) {
+                        var card = buildCard(project, i);
+                        container.appendChild(card);
+                    });
+
+                    setTimeout(function() {
+                        var cards = document.querySelectorAll('.project-card');
+                        cards.forEach(function(card, i) {
+                            setTimeout(function() {
+                                card.classList.add('visible');
+                            }, i * 120);
+                        });
+                    }, 50);
+                })
+                .catch(function() {
+                    loading.remove();
+                    container.innerHTML = '<div class="error-msg"><p>Unable to load projects. Try again later.</p></div>';
+                });
+        }
+
+        loadProjects();
+
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') { e.preventDefault(); return; }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
+            if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return; }
+            if (e.ctrlKey && e.key === 's') { e.preventDefault(); return; }
+        });
+    </script>
+</body>
+</html>

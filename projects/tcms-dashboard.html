@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1366">
+    <title>TCMS — Onboard HMI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b0e13;
+            --bg-panel: #111620;
+            --bg-panel-alt: #151c28;
+            --bg-widget: #1a2233;
+            --border: #243044;
+            --text-primary: #d8e0ec;
+            --text-secondary: #7a8da6;
+            --text-dim: #4a5a72;
+            --green: #00e676;
+            --green-dim: #00c853;
+            --green-glow: rgba(0,230,118,0.15);
+            --red: #ff3d3d;
+            --red-dim: #d32f2f;
+            --red-glow: rgba(255,61,61,0.2);
+            --amber: #ffab00;
+            --amber-glow: rgba(255,171,0,0.15);
+            --blue: #40c4ff;
+            --blue-dim: #0091ea;
+            --blue-glow: rgba(64,196,255,0.12);
+            --cyan: #00e5ff;
+            --font-mono: 'Share Tech Mono', monospace;
+            --font-display: 'Rajdhani', sans-serif;
+            --font-body: 'Exo 2', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body {
+            width: 1366px;
+            height: 768px;
+            overflow: hidden;
+            font-family: var(--font-body);
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        /* ═══ TOPBAR 32px ═══ */
+        .topbar {
+            display:flex; align-items:center; justify-content:space-between;
+            height:32px; padding:0 12px;
+            background:var(--bg-panel); border-bottom:1px solid var(--border);
+        }
+        .topbar-left { display:flex; align-items:center; gap:12px; }
+        .sys-title { font-family:var(--font-display); font-size:14px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--blue); }
+        .sys-badge { font-family:var(--font-mono); font-size:10px; color:var(--text-dim); background:var(--bg-widget); border:1px solid var(--border); padding:1px 6px; letter-spacing:1px; }
+        .topbar-right { display:flex; align-items:center; gap:18px; }
+        .tb-info { font-family:var(--font-mono); font-size:10px; color:var(--text-secondary); display:flex; align-items:center; gap:5px; }
+        .dot { width:5px; height:5px; border-radius:50%; background:var(--green); box-shadow:0 0 4px var(--green); animation:pdot 2s infinite; }
+        @keyframes pdot { 0%,100%{opacity:1}50%{opacity:.4} }
+        .clock { font-family:var(--font-mono); font-size:13px; color:var(--text-primary); letter-spacing:2px; }
+
+        /* ═══ MAIN GRID 736px ═══ */
+        .main {
+            display:grid;
+            grid-template-columns:200px 1fr 200px;
+            height:736px;
+            gap:1px;
+            background:var(--border);
+        }
+        .panel { background:var(--bg-panel); overflow:hidden; }
+        .ph {
+            font-family:var(--font-display); font-size:10px; font-weight:600;
+            letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim);
+            padding:5px 8px; border-bottom:1px solid var(--border);
+            display:flex; align-items:center; gap:5px;
+        }
+        .ph svg { width:11px; height:11px; stroke:var(--blue); fill:none; stroke-width:2; }
+
+        /* ═══ LEFT ═══ */
+        .left { display:flex; flex-direction:column; }
+
+        .door-sec { padding:4px 8px 6px; }
+        .dsl { display:flex; justify-content:space-between; margin-bottom:3px; }
+        .dsl span { font-family:var(--font-mono); font-size:8px; color:var(--text-dim); }
+        .door-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; }
+        .door { height:28px; border-radius:2px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:9px; color:var(--text-dim); }
+        .door.closed { background:var(--green-glow); border-color:var(--green); color:var(--green); }
+        .door.open { background:var(--amber-glow); border-color:var(--amber); color:var(--amber); animation:dblink 1s infinite; }
+        @keyframes dblink { 0%,100%{opacity:1}50%{opacity:.5} }
+
+        .env-sec { border-top:1px solid var(--border); padding:8px 8px; flex:1; display:flex; flex-direction:column; }
+        .env-row { display:flex; flex-direction:column; gap:4px; flex:1; }
+        .env-item { flex:1; background:var(--bg-widget); border:1px solid var(--border); border-radius:3px; padding:8px 6px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        .env-val { font-family:var(--font-display); font-size:28px; font-weight:700; }
+        .env-unit { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin-top:2px; }
+
+        .pwr-sec { border-top:1px solid var(--border); padding:8px 8px; flex:1; display:flex; flex-direction:column; }
+        .pwr-grid { display:flex; flex-direction:column; gap:4px; flex:1; }
+        .pwr-item { flex:1; background:var(--bg-widget); border:1px solid var(--border); border-radius:3px; padding:8px 6px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        .pwr-v { font-family:var(--font-display); font-size:24px; font-weight:700; }
+        .pwr-u { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin-top:2px; }
+
+        /* ═══ CENTER ═══ */
+        .center { display:flex; flex-direction:column; gap:1px; background:var(--border); }
+
+        /* Train Synoptic - centered at top */
+        .train-synoptic-area {
+            background:var(--bg-panel);
+            padding:10px 10px 12px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            flex:0 0 auto;
+        }
+        .train-diag {
+            display:flex;
+            justify-content:center;
+            margin-bottom:4px;
+        }
+        .car-grid-center {
+            display:flex;
+            gap:8px;
+            justify-content:center;
+            margin-top:4px;
+        }
+        .car-item {
+            background:var(--bg-widget);
+            border:1px solid var(--border);
+            border-radius:2px;
+            padding:4px 16px;
+            text-align:center;
+            min-width:90px;
+        }
+        .car-item.active { border-color:var(--green); box-shadow:inset 0 0 8px var(--green-glow); }
+        .car-item.warning { border-color:var(--amber); box-shadow:inset 0 0 8px var(--amber-glow); }
+        .car-item.error { border-color:var(--red); box-shadow:inset 0 0 8px var(--red-glow); animation:ferr 1.5s infinite; }
+        @keyframes ferr { 0%,100%{opacity:1}50%{opacity:.7} }
+        .cl { font-family:var(--font-mono); font-size:7px; color:var(--text-dim); }
+        .cv { font-family:var(--font-display); font-size:12px; font-weight:600; }
+        .cv.ok { color:var(--green); } .cv.warn { color:var(--amber); } .cv.err { color:var(--red); }
+
+        /* Speed area */
+        .speed-area { display:flex; gap:1px; background:var(--border); height:240px; flex-shrink:0; }
+        .speed-main { flex:1; background:var(--bg-panel); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4px; position:relative; }
+        .speed-ring { position:relative; width:180px; height:180px; }
+        .svc { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+        .spd-num { font-family:var(--font-display); font-size:52px; font-weight:700; line-height:1; color:var(--text-primary); }
+        .spd-unit { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); letter-spacing:2px; }
+        .spd-lim-row { display:flex; align-items:center; gap:6px; width:100%; max-width:240px; margin-top:6px; }
+        .sll { font-family:var(--font-mono); font-size:8px; color:var(--text-dim); }
+        .sbt { flex:1; height:4px; background:var(--bg-widget); border-radius:2px; overflow:hidden; }
+        .sbf { height:100%; border-radius:2px; transition:width .5s,background .5s; }
+        .sbf.normal { background:var(--green); } .sbf.caution { background:var(--amber); } .sbf.danger { background:var(--red); }
+        .slv { font-family:var(--font-mono); font-size:10px; color:var(--amber); }
+
+        .mode-indicator {
+            position:absolute; top:10px; left:10px;
+            font-family:var(--font-mono); font-size:9px;
+            padding:2px 8px; border-radius:2px;
+            letter-spacing:1px;
+        }
+        .mode-indicator.traction { color:var(--green); background:var(--green-glow); border:1px solid var(--green); }
+        .mode-indicator.braking { color:var(--red); background:var(--red-glow); border:1px solid var(--red); }
+        .mode-indicator.cruising { color:var(--blue); background:var(--blue-glow); border:1px solid var(--blue); }
+        .mode-indicator.stop { color:var(--amber); background:var(--amber-glow); border:1px solid var(--amber); }
+
+        .gl { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); letter-spacing:1px; }
+        .gval { font-family:var(--font-display); font-size:15px; font-weight:700; }
+
+        /* Alarms - center */
+        .alarm-sec-center {
+            background:var(--bg-panel);
+            padding:4px 10px;
+            display:flex;
+            flex-direction:column;
+            overflow:hidden;
+            flex:1;
+        }
+        .al { flex:1; display:flex; flex-direction:column; gap:4px; margin-top:4px; overflow:hidden; }
+        .ae { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:3px; flex-shrink:0; animation:asl .3s ease-out; }
+        @keyframes asl { from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)} }
+        .ae.critical { background:var(--red-glow); border-left:3px solid var(--red); }
+        .ae.warning { background:var(--amber-glow); border-left:3px solid var(--amber); }
+        .ae.info { background:var(--blue-glow); border-left:3px solid var(--blue); }
+        .at { font-family:var(--font-mono); font-size:12px; color:var(--text-dim); white-space:nowrap; min-width:44px; }
+        .am { font-family:var(--font-body); font-size:13px; color:var(--text-secondary); line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .acb { font-family:var(--font-mono); font-size:9px; background:var(--red); color:#fff; padding:1px 5px; border-radius:4px; margin-left:auto; }
+
+        /* Route - center bottom */
+        .route-area-center { background:var(--bg-panel); padding:6px 14px; flex-shrink:0; }
+        .route-line { position:relative; height:28px; display:flex; align-items:center; margin:6px 0 4px; }
+        .rt { width:100%; height:3px; background:var(--border); border-radius:1px; position:relative; }
+        .rp { position:absolute; top:0; left:0; height:100%; background:var(--blue); border-radius:1px; transition:width 1s linear; box-shadow:0 0 6px var(--blue-glow); }
+        .rti { position:absolute; top:-5px; width:13px; height:13px; background:var(--blue); border-radius:50%; border:2px solid var(--bg-panel); transform:translateX(-50%); transition:left 1s linear; box-shadow:0 0 6px rgba(64,196,255,.5); }
+        .rst { display:flex; justify-content:space-between; padding:0 4px; }
+        .st { text-align:center; }
+        .sd { width:7px; height:7px; border-radius:50%; margin:0 auto 2px; border:1px solid var(--border); background:var(--bg-panel); }
+        .sd.passed { background:var(--blue); border-color:var(--blue); }
+        .sd.current { background:var(--cyan); border-color:var(--cyan); box-shadow:0 0 5px rgba(0,229,255,.5); }
+        .sname { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); }
+        .sname.active { color:var(--cyan); } .sname.pt { color:var(--text-secondary); }
+        .rdr { display:flex; gap:0; margin-top:6px; background:var(--bg-widget); border:1px solid var(--border); border-radius:2px; }
+        .rdr-item { flex:1; padding:5px 8px; text-align:center; border-right:1px solid var(--border); }
+        .rdr-item:last-child { border-right:none; }
+        .rdl { font-family:var(--font-mono); font-size:7px; color:var(--text-dim); letter-spacing:.5px; text-transform:uppercase; }
+        .rdv { font-family:var(--font-display); font-size:14px; font-weight:600; color:var(--text-primary); }
+
+        /* ═══ RIGHT ═══ */
+        .right { display:flex; flex-direction:column; gap:1px; background:var(--border); }
+        .diag-sec { background:var(--bg-panel); padding:6px 8px; flex:1; display:flex; flex-direction:column; }
+        .dg { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:4px; flex:1; }
+        .di { background:var(--bg-widget); border:1px solid var(--border); border-radius:3px; padding:8px 8px 6px; display:flex; flex-direction:column; justify-content:center; }
+        .dl { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin-bottom:2px; }
+        .dv { font-family:var(--font-display); font-size:22px; font-weight:700; }
+        .db { width:100%; height:4px; background:var(--bg-panel-alt); border-radius:2px; margin-top:4px; overflow:hidden; }
+        .dbf { height:100%; border-radius:2px; transition:width .5s; }
+
+        .net-sec { background:var(--bg-panel); border-top:1px solid var(--border); padding:6px 8px; }
+        .net-row { display:flex; gap:4px; margin-top:4px; }
+        .net-item { flex:1; background:var(--bg-widget); border:1px solid var(--border); border-radius:3px; padding:6px 4px; text-align:center; }
+        .nv { font-family:var(--font-display); font-size:16px; font-weight:700; }
+        .nu { font-family:var(--font-mono); font-size:8px; color:var(--text-dim); margin-top:1px; }
+
+        /* Traction section (right panel) */
+        .traction-sec { background:var(--bg-panel); border-top:1px solid var(--border); padding:6px 8px; flex:1; display:flex; flex-direction:column; }
+        .traction-gauges { display:flex; flex-direction:column; gap:6px; margin-top:4px; flex:1; justify-content:center; }
+        .tg-item { display:flex; flex-direction:column; gap:2px; }
+        .tg-label-row { display:flex; justify-content:space-between; align-items:baseline; }
+        .tg-bar { width:100%; height:22px; background:var(--bg-widget); border:1px solid var(--border); border-radius:3px; overflow:hidden; position:relative; }
+        .tg-fill { height:100%; border-radius:2px; transition:width .4s; }
+        .tg-fill.tr { background:linear-gradient(to right,var(--green-dim),var(--green)); }
+        .tg-fill.br { background:linear-gradient(to right,var(--red-dim),var(--red)); }
+        .tg-fill.hv { background:linear-gradient(to right,var(--blue-dim),var(--blue)); }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="sys-title">TCMS HMI</div>
+            <div class="sys-badge">TRAIN 4127 — REG ROCK</div>
+            <div class="sys-badge">GoA2 — ATO</div>
+        </div>
+        <div class="topbar-right">
+            <div class="tb-info"><span class="dot"></span><span>ONLINE</span></div>
+            <div class="clock" id="clock">00:00:00</div>
+        </div>
+    </div>
+
+    <div class="main">
+        <!-- LEFT -->
+        <div class="panel left">
+            <div class="ph"><svg viewBox="0 0 24 24"><path d="M18 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2z"/><line x1="12" y1="10" x2="12" y2="14"/></svg>Doors</div>
+            <div class="door-sec">
+                <div class="dsl"><span>LEFT</span><span>RIGHT</span></div>
+                <div class="door-grid" id="dg"></div>
+            </div>
+
+            <div class="pwr-sec">
+                <div class="ph" style="padding:3px 0;border:none"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Power</div>
+                <div class="pwr-grid">
+                    <div class="pwr-item"><div class="pwr-v" id="pantV" style="color:var(--amber)">3.00</div><div class="pwr-u">PANT kV</div></div>
+                    <div class="pwr-item"><div class="pwr-v" id="auxV" style="color:var(--green)">400</div><div class="pwr-u">AUX V</div></div>
+                    <div class="pwr-item"><div class="pwr-v" id="battV" style="color:var(--green)">110</div><div class="pwr-u">BATT V</div></div>
+                </div>
+            </div>
+
+            <div class="env-sec">
+                <div class="ph" style="padding:3px 0;border:none"><svg viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg>Environment</div>
+                <div class="env-row">
+                    <div class="env-item"><div class="env-val" id="intT" style="color:var(--green)">22°</div><div class="env-unit">INT</div></div>
+                    <div class="env-item"><div class="env-val" id="extT" style="color:var(--blue)">31°</div><div class="env-unit">EXT</div></div>
+                    <div class="env-item"><div class="env-val" id="hum" style="color:var(--cyan)">58%</div><div class="env-unit">HUM</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER -->
+        <div class="panel center">
+            <!-- 1. SYNOPTIC - top center -->
+            <div class="train-synoptic-area">
+                <div class="ph" style="padding:3px 0 4px;border:none"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><circle cx="8" cy="18" r="1"/><circle cx="16" cy="18" r="1"/></svg>Vehicle Synoptic</div>
+                <div class="train-diag">
+                    <svg width="500" height="56" viewBox="0 0 500 56">
+                        <rect x="6" y="6" width="106" height="30" rx="5" fill="none" stroke="var(--green)" stroke-width="1.4" id="cr1"/>
+                        <text x="59" y="25" text-anchor="middle" fill="var(--green)" font-family="var(--font-mono)" font-size="10">MC1</text>
+                        <circle cx="22" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+                        <circle cx="96" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+
+                        <rect x="122" y="6" width="106" height="30" rx="5" fill="none" stroke="var(--green)" stroke-width="1.4" id="cr2"/>
+                        <text x="175" y="25" text-anchor="middle" fill="var(--green)" font-family="var(--font-mono)" font-size="10">T1</text>
+                        <circle cx="138" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+                        <circle cx="212" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+
+                        <rect x="238" y="6" width="106" height="30" rx="5" fill="none" stroke="var(--blue)" stroke-width="1.4" id="cr3"/>
+                        <text x="291" y="25" text-anchor="middle" fill="var(--blue)" font-family="var(--font-mono)" font-size="10">T2</text>
+                        <circle cx="254" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+                        <circle cx="328" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+
+                        <rect x="354" y="6" width="112" height="30" rx="7" fill="none" stroke="var(--green)" stroke-width="1.4" id="cr4"/>
+                        <text x="410" y="25" text-anchor="middle" fill="var(--green)" font-family="var(--font-mono)" font-size="10">MC2</text>
+                        <circle cx="370" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+                        <circle cx="450" cy="44" r="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+
+                        <polygon points="486,21 479,14 479,28" fill="var(--blue)"/>
+                    </svg>
+                </div>
+                <div class="car-grid-center">
+                    <div class="car-item active" id="cs1"><div class="cl">MC1</div><div class="cv ok" id="cv1">OK</div></div>
+                    <div class="car-item active" id="cs2"><div class="cl">T1</div><div class="cv ok" id="cv2">OK</div></div>
+                    <div class="car-item active" id="cs3"><div class="cl">T2</div><div class="cv ok" id="cv3">OK</div></div>
+                    <div class="car-item active" id="cs4"><div class="cl">MC2</div><div class="cv ok" id="cv4">OK</div></div>
+                </div>
+            </div>
+
+            <!-- 2. SPEED GAUGE - center -->
+            <div class="speed-area">
+                <div class="speed-main">
+                    <div class="mode-indicator traction" id="modeInd">TRACTION</div>
+                    <div class="speed-ring">
+                        <svg width="180" height="180" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="88" fill="none" stroke="var(--bg-widget)" stroke-width="5" stroke-dasharray="415 138" stroke-dashoffset="-69" stroke-linecap="round"/>
+                            <circle cx="100" cy="100" r="88" fill="none" stroke="var(--green)" stroke-width="5" stroke-dasharray="0 553" stroke-dashoffset="-69" stroke-linecap="round" id="sa" style="transition:stroke-dasharray .5s,stroke .5s"/>
+                        </svg>
+                        <div class="svc">
+                            <div class="spd-num" id="sv">0</div>
+                            <div class="spd-unit">KM/H</div>
+                        </div>
+                    </div>
+                    <div class="spd-lim-row">
+                        <span class="sll">SPD</span>
+                        <div class="sbt"><div class="sbf normal" id="sbf" style="width:0%"></div></div>
+                        <span class="slv">160</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. ALARMS - center -->
+            <div class="alarm-sec-center">
+                <div class="ph" style="padding:3px 0;border:none"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Alarms<span class="acb" id="ac">0</span></div>
+                <div class="al" id="aList"></div>
+            </div>
+
+            <!-- 4. ROUTE - center bottom -->
+            <div class="route-area-center">
+                <div class="ph" style="padding:0 0 3px;border:none"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Napoli Centrale → Salerno</div>
+                <div class="route-line"><div class="rt"><div class="rp" id="rp" style="width:0%"></div><div class="rti" id="rti" style="left:0%"></div></div></div>
+                <div class="rst" id="rs"></div>
+                <div class="rdr">
+                    <div class="rdr-item"><div class="rdl">NEXT</div><div class="rdv" id="ns">—</div></div>
+                    <div class="rdr-item"><div class="rdl">ETA</div><div class="rdv" id="eta">—</div></div>
+                    <div class="rdr-item"><div class="rdl">DIST</div><div class="rdv" id="dst">0.0 km</div></div>
+                    <div class="rdr-item"><div class="rdl">DELAY</div><div class="rdv" id="del" style="color:var(--green)">ON TIME</div></div>
+                    <div class="rdr-item"><div class="rdl">LINE V</div><div class="rdv" id="lv">3.00 kV</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="panel right">
+            <div class="diag-sec">
+                <div class="ph" style="padding:5px 0 3px;border:none"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Diagnostics</div>
+                <div class="dg">
+                    <div class="di"><div class="dl">CPU</div><div class="dv" id="cpuV" style="color:var(--green)">23%</div><div class="db"><div class="dbf" id="cpuB" style="width:23%;background:var(--green)"></div></div></div>
+                    <div class="di"><div class="dl">MEM</div><div class="dv" id="memV" style="color:var(--green)">41%</div><div class="db"><div class="dbf" id="memB" style="width:41%;background:var(--green)"></div></div></div>
+                    <div class="di"><div class="dl">ETH</div><div class="dv" id="ethV" style="color:var(--green)">100M</div><div class="db"><div class="dbf" id="ethB" style="width:100%;background:var(--blue)"></div></div></div>
+                    <div class="di"><div class="dl">BUS</div><div class="dv" id="busV" style="color:var(--green)">18%</div><div class="db"><div class="dbf" id="busB" style="width:18%;background:var(--green)"></div></div></div>
+                </div>
+            </div>
+            <div class="net-sec">
+                <div class="ph" style="padding:3px 0;border:none"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Network</div>
+                <div class="net-row">
+                    <div class="net-item"><div class="nv" style="color:var(--green)" id="mvbS">OK</div><div class="nu">MVB</div></div>
+                    <div class="net-item"><div class="nv" style="color:var(--green)" id="ethS">OK</div><div class="nu">ETH</div></div>
+                    <div class="net-item"><div class="nv" style="color:var(--green)" id="canS">OK</div><div class="nu">CAN</div></div>
+                </div>
+            </div>
+            <!-- Traction / Brake / HVAC gauges -->
+            <div class="traction-sec">
+                <div class="ph" style="padding:3px 0;border:none"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Traction</div>
+                <div class="traction-gauges">
+                    <div class="tg-item">
+                        <div class="tg-label-row"><div class="gl">TRACTION</div><div class="gval" id="trv" style="color:var(--green)">0%</div></div>
+                        <div class="tg-bar"><div class="tg-fill tr" id="trf" style="width:0%"></div></div>
+                    </div>
+                    <div class="tg-item">
+                        <div class="tg-label-row"><div class="gl">BRAKE</div><div class="gval" id="brv" style="color:var(--red)">0%</div></div>
+                        <div class="tg-bar"><div class="tg-fill br" id="brf" style="width:0%"></div></div>
+                    </div>
+                    <div class="tg-item">
+                        <div class="tg-label-row"><div class="gl">HVAC</div><div class="gval" id="hvv" style="color:var(--blue)">75%</div></div>
+                        <div class="tg-bar"><div class="tg-fill hv" id="hvf" style="width:75%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Clock
+    function uc(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+    setInterval(uc,1000);uc();
+
+    // Route
+    const sts=[{n:'Napoli C.',k:0},{n:'P.Garib.',k:2.5},{n:'S.Giov.',k:6},{n:'Portici',k:9},{n:'Ercolano',k:12},{n:'T.d.Greco',k:16},{n:'T.Annunz.',k:22},{n:'Pompei',k:27},{n:'Nocera',k:38},{n:'Salerno',k:54}];
+    const totK=54, showS=[0,2,4,5,7,9];
+    const rsEl=document.getElementById('rs');
+    showS.forEach(i=>{const d=document.createElement('div');d.className='st';d.innerHTML=`<div class="sd" id="sd${i}"></div><div class="sname" id="sn${i}">${sts[i].n}</div>`;rsEl.appendChild(d)});
+
+    // Doors
+    const dgEl=document.getElementById('dg');
+    for(let i=0;i<8;i++){const d=document.createElement('div');d.className='door closed';d.id=`d${i}`;d.textContent=`D${i+1}`;dgEl.appendChild(d)}
+
+    // State
+    let S={s:0,tr:0,br:0,rp:0,si:0,ph:'a',lim:160,dOpen:false,dw:0,alarms:[],km:0};
+    const mxA=415;
+
+    function aa(t,m){const now=new Date();const time=now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});S.alarms.unshift({t,m,time});if(S.alarms.length>5)S.alarms.pop();ra()}
+    function ra(){const l=document.getElementById('aList');l.innerHTML=S.alarms.map(a=>`<div class="ae ${a.t}"><span class="at">${a.time}</span><span class="am">${a.m}</span></div>`).join('');document.getElementById('ac').textContent=S.alarms.length}
+
+    aa('info','TCMS boot completed');
+    aa('info','All subsystems OK');
+    aa('info','Route: Napoli C. → Salerno');
+
+    let tk=0;
+    function sim(){
+        tk++;
+        const nx=sts[S.si+1];
+        if(!nx){S.s=Math.max(0,S.s-2);upd();return}
+        const dn=nx.k-S.km;
+
+        const mi=document.getElementById('modeInd');
+
+        if(S.dOpen){
+            S.dw--;S.s=0;S.tr=0;S.br=0;
+            mi.textContent='STATION';mi.className='mode-indicator stop';
+            if(S.dw<=0){S.dOpen=false;for(let i=0;i<8;i++)document.getElementById(`d${i}`).className='door closed';aa('info',`Dep. ${sts[S.si].n}`);S.ph='a'}
+        }else if(dn<2&&S.s>20){
+            S.ph='b';S.tr=0;S.br=Math.min(85,(2-dn)*50+20);S.s=Math.max(0,S.s-S.br*.06);
+            mi.textContent='BRAKING';mi.className='mode-indicator braking';
+        }else if(dn<=.1){
+            S.s=0;S.tr=0;S.br=0;S.km=nx.k;S.si++;S.dOpen=true;S.dw=30;
+            const side=Math.random()>.5?[0,2,4,6]:[1,3,5,7];
+            side.forEach(i=>document.getElementById(`d${i}`).className='door open');
+            aa('info',`Arrived: ${sts[S.si].n}`);
+            mi.textContent='STATION';mi.className='mode-indicator stop';
+        }else if(S.ph==='a'){
+            const tgt=Math.min(S.lim,115+Math.random()*30);
+            if(S.s<tgt){S.tr=Math.min(90,40+(tgt-S.s)*.8);S.br=0;S.s=Math.min(tgt,S.s+S.tr*.04);
+                mi.textContent='TRACTION';mi.className='mode-indicator traction';
+            }else S.ph='c';
+        }else{
+            S.tr=15+Math.random()*10;S.br=0;S.s+=(Math.random()-.5)*2;
+            mi.textContent='CRUISING';mi.className='mode-indicator cruising';
+            if(dn<3)S.ph='b';
+        }
+
+        if(!S.dOpen)S.km+=S.s*.0001389;
+        S.km=Math.min(S.km,totK);S.rp=(S.km/totK)*100;
+
+        if(tk%120===0&&Math.random()>.6){
+            const w=[{t:'warning',m:'Pantograph voltage fluctuation'},{t:'warning',m:'HVAC compressor C2 high temp'},{t:'info',m:'Wheel slip protection — MC1'},{t:'warning',m:'Brake pad wear — Bogie 3'},{t:'info',m:'ATC speed restriction: 80 km/h'},{t:'critical',m:'EB test required'}][Math.floor(Math.random()*6)];
+            aa(w.t,w.m);
+        }
+
+        if(tk%200===0&&Math.random()>.7){
+            const ci=Math.ceil(Math.random()*4);
+            document.getElementById(`cs${ci}`).className='car-item warning';
+            const cv=document.getElementById(`cv${ci}`);cv.className='cv warn';cv.textContent='WARN';
+            setTimeout(()=>{document.getElementById(`cs${ci}`).className='car-item active';cv.className='cv ok';cv.textContent='OK'},5000);
+        }
+        upd();
+    }
+
+    function upd(){
+        const spd=Math.max(0,Math.round(S.s));
+        document.getElementById('sv').textContent=spd;
+        const r=Math.min(spd/200,1),arc=r*mxA;
+        const sa=document.getElementById('sa');
+        sa.setAttribute('stroke-dasharray',`${arc} ${553-arc}`);
+        sa.setAttribute('stroke',spd>S.lim*.9?'var(--red)':spd>S.lim*.7?'var(--amber)':'var(--green)');
+        const bp=(spd/S.lim)*100,bf=document.getElementById('sbf');
+        bf.style.width=Math.min(bp,100)+'%';
+        bf.className='sbf '+(bp>95?'danger':bp>75?'caution':'normal');
+
+        document.getElementById('trf').style.width=S.tr+'%';document.getElementById('trv').textContent=Math.round(S.tr)+'%';
+        document.getElementById('brf').style.width=S.br+'%';document.getElementById('brv').textContent=Math.round(S.br)+'%';
+        const hv=70+Math.floor(Math.random()*10);
+        document.getElementById('hvf').style.width=hv+'%';document.getElementById('hvv').textContent=hv+'%';
+
+        document.getElementById('rp').style.width=S.rp+'%';document.getElementById('rti').style.left=S.rp+'%';
+        const ns=sts[S.si+1];
+        document.getElementById('ns').textContent=ns?ns.n:'TERMINUS';
+        document.getElementById('dst').textContent=(ns?(ns.k-S.km).toFixed(1):'0.0')+' km';
+        const em=ns&&S.s>5?Math.ceil((ns.k-S.km)/(S.s/60)):'—';
+        document.getElementById('eta').textContent=em!=='—'?em+' min':'—';
+
+        showS.forEach(i=>{
+            const dot=document.getElementById(`sd${i}`),nm=document.getElementById(`sn${i}`);
+            if(i<=S.si){dot.className='sd passed';nm.className='sname pt'}
+            else if(i===S.si+1){dot.className='sd current';nm.className='sname active'}
+            else{dot.className='sd';nm.className='sname'}
+        });
+
+        const pv=(2.95+Math.random()*.1).toFixed(2);
+        document.getElementById('pantV').textContent=pv;
+        document.getElementById('lv').textContent=pv+' kV';
+        document.getElementById('auxV').textContent=Math.round(395+Math.random()*10);
+        document.getElementById('battV').textContent=Math.round(108+Math.random()*4);
+
+        const cpu=20+Math.floor(Math.random()*15),mem=38+Math.floor(Math.random()*10),bus=15+Math.floor(Math.random()*12);
+        document.getElementById('cpuV').textContent=cpu+'%';document.getElementById('cpuB').style.width=cpu+'%';
+        document.getElementById('memV').textContent=mem+'%';document.getElementById('memB').style.width=mem+'%';
+        document.getElementById('busV').textContent=bus+'%';document.getElementById('busB').style.width=bus+'%';
+
+        document.getElementById('intT').textContent=(21+Math.floor(Math.random()*3))+'°';
+        document.getElementById('extT').textContent=(29+Math.floor(Math.random()*4))+'°';
+        document.getElementById('hum').textContent=(55+Math.floor(Math.random()*10))+'%';
+    }
+
+    setInterval(sim,500);
+    </script>
+</body>
+</html>

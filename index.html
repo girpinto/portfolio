@@ -679,6 +679,99 @@
             section { padding: 4rem 1.5rem; }
             footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
+
+        .projects-preview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .project-preview-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .project-preview-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project-preview-card:hover { border-color: var(--border-light); transform: translateY(-4px); }
+        .project-preview-card:hover::after { transform: scaleX(1); }
+
+        .project-preview-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-preview-tag {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 0.15rem 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .project-preview-date {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .project-preview-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-preview-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .project-preview-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .project-preview-stack span {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            padding: 0.2rem 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 900px) {
+            .projects-preview { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -691,6 +784,7 @@
             <li><a href="#skills" onclick="closeNav()" data-en="Skills" data-it="Competenze">Skills</a></li>
             <li><a href="#education" onclick="closeNav()" data-en="Education" data-it="Formazione">Education</a></li>
             <li><a href="#contact" onclick="closeNav()" data-en="Contact" data-it="Contatti">Contact</a></li>
+            <li><a href="projects.html" data-en="Projects" data-it="Progetti">Projects</a></li>
             <li><a href="storie.html" data-en="Stories" data-it="Storie">Stories</a></li>
         </ul>
         <div class="lang-switch">
@@ -712,6 +806,7 @@
                     <a href="#contact" class="btn btn-primary" id="ctaPrimary" data-en="Get in touch" data-it="Contattami">Get in touch <svg style="width:22px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
                     <a href="#experience" class="btn btn-outline" data-en="View experience" data-it="Esperienza">View experience</a>
                     <a href="Girolamo_Pinto_CV_Software_Engineer.docx" download class="btn btn-outline" data-en="Download CV" data-it="Scarica CV">Download CV <svg style="width:14px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+                    <a href="projects.html" class="btn btn-outline" data-en="My Projects" data-it="I Miei Progetti">My Projects <svg style="width:14px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -904,10 +999,27 @@
         </div>
     </section>
 
-    <section id="education">
+    <section id="projects">
         <div class="section-inner">
             <div class="section-header reveal">
                 <span class="section-number">04</span>
+                <h2 class="section-title" data-en="Projects" data-it="Progetti">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+            <p class="projects-intro reveal" data-en="Side projects where I explore ideas end-to-end — from concept to working prototype. Each one is a self-contained engineering exercise." data-it="Progetti personali dove esploro idee dall'inizio alla fine — dal concept al prototipo funzionante. Ognuno è un esercizio di ingegneria autonomo." style="color:var(--text-secondary);font-weight:300;font-size:1.02rem;margin-bottom:2.5rem;max-width:640px;">Side projects where I explore ideas end-to-end — from concept to working prototype. Each one is a self-contained engineering exercise.</p>
+            <div class="projects-preview" id="projectsPreview">
+                <!-- populated by JS -->
+            </div>
+            <div style="margin-top:2.5rem" class="reveal">
+                <a href="projects.html" class="btn btn-outline" data-en="View all projects" data-it="Vedi tutti i progetti">View all projects <svg style="width:14px;height:14px;display:inline;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-number">05</span>
                 <h2 class="section-title" data-en="Education" data-it="Formazione">Education</h2>
                 <div class="section-line"></div>
             </div>
@@ -929,7 +1041,7 @@
     <section id="contact">
         <div class="section-inner">
             <div class="section-header reveal">
-                <span class="section-number">05</span>
+                <span class="section-number">06</span>
                 <h2 class="section-title" data-en="Let's Connect" data-it="Contatti">Let's Connect</h2>
                 <div class="section-line"></div>
             </div>
@@ -1056,6 +1168,36 @@
             if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return; }
             if (e.ctrlKey && e.key === 's') { e.preventDefault(); return; }
         });
+
+        // Load project previews
+        fetch('projects/projects.json')
+            .then(function(r) { return r.json(); })
+            .then(function(projects) {
+                var container = document.getElementById('projectsPreview');
+                var show = projects.slice(0, 4);
+                show.forEach(function(p) {
+                    var card = document.createElement('a');
+                    card.href = 'projects/' + p.file;
+                    card.className = 'project-preview-card reveal';
+                    var stackHtml = '';
+                    if (p.stack) {
+                        stackHtml = '<div class="project-preview-stack">' +
+                            p.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') +
+                            '</div>';
+                    }
+                    card.innerHTML =
+                        '<div class="project-preview-meta">' +
+                            '<span class="project-preview-tag">' + p.tag + '</span>' +
+                            '<span class="project-preview-date">' + p.date + '</span>' +
+                        '</div>' +
+                        '<h3 class="project-preview-title">' + p.title + '</h3>' +
+                        '<p class="project-preview-desc">' + p.excerpt + '</p>' +
+                        stackHtml;
+                    container.appendChild(card);
+                    observer.observe(card);
+                });
+            })
+            .catch(function() {});
     </script>
 </body>
 </html>

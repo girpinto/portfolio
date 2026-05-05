@@ -1,0 +1,27 @@
+[
+    {
+        "file": "hmi-dashboard.html",
+        "title": "TCMS Onboard HMI Dashboard",
+        "date": "May 2026",
+        "tag": "HMI / Frontend",
+        "excerpt": "A fully simulated train management dashboard with real-time speed gauge, route tracking, alarm system, and vehicle diagnostics — built as a single-page HTML application.",
+        "description": "Designed and built a complete HMI dashboard simulating an onboard TCMS for a regional train running Napoli–Salerno. Features include real-time speed gauge with arc rendering, station-by-station route progress, door status monitoring, traction/brake gauges, alarm management, and environmental data display. The simulation runs autonomously with realistic acceleration, braking, and station-stop cycles.",
+        "motivation": "I wanted to demonstrate that a functional HMI prototype can be built rapidly with web technologies, without heavy frameworks — useful for rapid prototyping and stakeholder demos before committing to platform-specific toolchains.",
+        "stack": ["HTML", "CSS", "JavaScript", "SVG"],
+        "links": {
+            "live": "https://girpinto.github.io/projects/tcms-dashboard.html",
+            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+        }
+    },
+    {
+        "file": "project-placeholder.html",
+        "title": "Next Project Title",
+        "date": "Coming soon",
+        "tag": "Category",
+        "excerpt": "Brief description of the project concept and what it demonstrates.",
+        "description": "Full description goes here.",
+        "motivation": "Why I built it goes here.",
+        "stack": ["Tech1", "Tech2"],
+        "links": {}
+    }
+]
