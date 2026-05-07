@@ -10,8 +10,8 @@
         "motivation": "I wanted to demonstrate that a functional HMI prototype can be built rapidly with web technologies, without heavy frameworks — useful for rapid prototyping and stakeholder demos before committing to platform-specific toolchains.",
         "stack": ["HTML", "CSS", "JavaScript", "SVG"],
         "links": {
-            "live": "https://girpinto.github.io/projects/hmi-dashboard/tcms-dashboard.html",
-            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+            "live": "https://github.com/girpinto/portfolio/blob/main/projects/hmi-dashboard/tcms-dashboard.html",
+            "repo": "https://github.com/girpinto/portfolio/blob/main/projects/hmi-dashboard"
         }
     },
     {
@@ -25,8 +25,8 @@
         "motivation": "I wanted to explore how far you can push a single-file web application for sports data visualization — no frameworks, no backend, just vanilla JS rendering real race data. The Python script handles the data engineering; the browser handles the storytelling.",
         "stack": ["Python", "JavaScript", "SVG", "REST API"],
         "links": {
-            "live": "https://girpinto.github.io/projects/f1-miami/f1-miami-replay.html",
-            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+            "live": "https://github.com/girpinto/portfolio/blob/main/projects/f1-miami/f1_miami_replay_app.html",
+            "repo": "https://github.com/girpinto/portfolio/blob/main/projects/f1-miami"
         }
     },
     {
@@ -40,8 +40,8 @@
         "motivation": "No grand reason. I was learning JavaScript in 2022 and wanted to build something fun with the Canvas API. Snake felt like the perfect excuse — simple enough to finish in an afternoon, satisfying enough to keep tweaking for a week.",
         "stack": ["HTML", "CSS", "JavaScript"],
         "links": {
-            "live": "https://girpinto.github.io/projects/snake-game/code/game.html",
-            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+            "live": "https://github.com/girpinto/portfolio/blob/main/projects/snake-game/code/game.html",
+            "repo": "https://github.com/girpinto/portfolio/blob/main/projects/snake-game"
         }
     }
 ]
