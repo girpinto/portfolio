@@ -1,6 +1,7 @@
 [
     {
-        "file": "hmi-dashboard.html",
+        "id": "tcms-dashboard",
+        "file": "project.html?id=tcms-dashboard",
         "title": "TCMS Onboard HMI Dashboard",
         "date": "Apr 2026",
         "tag": "HMI / Frontend",
@@ -9,12 +10,13 @@
         "motivation": "I wanted to demonstrate that a functional HMI prototype can be built rapidly with web technologies, without heavy frameworks — useful for rapid prototyping and stakeholder demos before committing to platform-specific toolchains.",
         "stack": ["HTML", "CSS", "JavaScript", "SVG"],
         "links": {
-            "live": "https://girpinto.github.io/projects/tcms-dashboard.html",
+            "live": "https://girpinto.github.io/projects/hmi-dashboard/tcms-dashboard.html",
             "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
         }
     },
     {
-        "file": "f1-miami-replay.html",
+        "id": "f1-miami-replay",
+        "file": "project.html?id=f1-miami-replay",
         "title": "F1 Miami GP — Race Replay Dashboard",
         "date": "May 2026",
         "tag": "Data Visualization",
@@ -23,19 +25,23 @@
         "motivation": "I wanted to explore how far you can push a single-file web application for sports data visualization — no frameworks, no backend, just vanilla JS rendering real race data. The Python script handles the data engineering; the browser handles the storytelling.",
         "stack": ["Python", "JavaScript", "SVG", "REST API"],
         "links": {
-            "live": "https://girpinto.github.io/projects/f1-miami-replay.html",
+            "live": "https://girpinto.github.io/projects/f1-miami/f1-miami-replay.html",
             "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
         }
     },
     {
-        "file": "project-placeholder.html",
-        "title": "Next Project Title",
-        "date": "Coming soon",
-        "tag": "Category",
-        "excerpt": "Brief description of the project concept and what it demonstrates.",
-        "description": "Full description goes here.",
-        "motivation": "Why I built it goes here.",
-        "stack": ["Tech1", "Tech2"],
-        "links": {}
+        "id": "snake-game",
+        "file": "project.html?id=snake-game",
+        "title": "Snake Game",
+        "date": "Apr 2022",
+        "tag": "Game",
+        "excerpt": "A classic Snake game built from scratch with HTML Canvas — no libraries, no frameworks, just a canvas element and a few hundred lines of JavaScript. You move, you eat, you grow, you inevitably crash into yourself.",
+        "description": "The game board is a 20×20 grid drawn on an HTML canvas. A loop runs 7 times per second (faster as you score), updating the snake's position, checking for collisions, and redrawing everything. The snake wraps around the edges instead of dying on walls, because I always found wall-death annoying. The apple avoids spawning on the snake's body. That's pretty much it — no physics engine, no state machine, just arrays and a setTimeout.",
+        "motivation": "No grand reason. I was learning JavaScript in 2022 and wanted to build something fun with the Canvas API. Snake felt like the perfect excuse — simple enough to finish in an afternoon, satisfying enough to keep tweaking for a week.",
+        "stack": ["HTML", "CSS", "JavaScript"],
+        "links": {
+            "live": "https://girpinto.github.io/projects/snake-game/code/game.html",
+            "repo": "https://github.com/girpinto/girpinto.github.io/tree/main/projects"
+        }
     }
 ]

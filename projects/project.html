@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project — Girolamo Pinto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #111114;
+            --bg-card: #16161a;
+            --bg-elevated: #1c1c21;
+            --text-primary: #f0ece4;
+            --text-secondary: #9a958c;
+            --text-muted: #5c584f;
+            --accent: #d4a843;
+            --accent-dim: #b8922e;
+            --accent-glow: rgba(212, 168, 67, 0.15);
+            --border: #2a2a30;
+            --border-light: #3a3a42;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent-dim) var(--bg-primary); }
+        body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 1.2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); background: rgba(10, 10, 12, 0.85); border-bottom: 1px solid var(--border); }
+        .nav-logo { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; text-decoration: none; }
+        .nav-back { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s; }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .project-header { padding: 10rem 2.5rem 3rem; max-width: 800px; margin: 0 auto; }
+        .project-header-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .project-header-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); background: var(--accent-glow); padding: 0.2rem 0.6rem; letter-spacing: 0.5px; }
+        .project-header-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; }
+        .project-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; }
+        .project-header-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+        .project-header-stack span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-secondary); background: var(--bg-elevated); border: 1px solid var(--border); padding: 0.25rem 0.6rem; letter-spacing: 0.5px; }
+        .project-header-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .project-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border-light); color: var(--text-primary); transition: all 0.3s; }
+        .project-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .project-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .project-body { max-width: 800px; margin: 0 auto; padding: 0 2.5rem 4rem; }
+        .project-section { margin-bottom: 3rem; }
+        .project-section-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+        .project-section p { color: var(--text-secondary); font-weight: 300; font-size: 1rem; line-height: 1.8; }
+        .project-divider { width: 40px; height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+        .project-nav { max-width: 800px; margin: 0 auto; padding: 0 2.5rem 4rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; }
+        .project-nav a { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; transition: color 0.3s; }
+        .project-nav a:hover { color: var(--accent); }
+        .project-nav svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        footer { padding: 2.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .loading-state { text-align: center; padding: 12rem 2rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); letter-spacing: 1px; }
+        .error-state { text-align: center; padding: 12rem 2rem; }
+        .error-state p { font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem; }
+        .error-state a { color: var(--accent); text-decoration: none; font-family: var(--font-mono); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .project-header { padding: 8rem 1.5rem 2rem; }
+            .project-body { padding: 0 1.5rem 3rem; }
+            .project-nav { padding: 2rem 1.5rem 3rem; }
+            footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../index.html" class="nav-logo">GP_</a>
+        <a href="../projects.html" class="nav-back">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            All projects
+        </a>
+    </nav>
+    
+    <div id="content">
+        <div class="loading-state">Loading project...</div>
+    </div>
+
+    <footer>
+        <span>&copy; 2026 Girolamo Pinto</span>
+        <a href="../projects.html">Back to projects</a>
+    </footer>
+
+    <script>
+    (function() {
+        var liveSvg = '<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+        var repoSvg = '<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>';
+        var arrowLeftSvg = '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
+
+        // Get project ID from URL
+        var params = new URLSearchParams(window.location.search);
+        var projectId = params.get('id');
+        var contentEl = document.getElementById('content');
+
+        if (!projectId) {
+            showError();
+            return;
+        }
+
+        fetch('projects.json')
+            .then(function(r) {
+                if (!r.ok) throw new Error();
+                return r.json();
+            })
+            .then(function(projects) {
+                var project = null;
+                for (var i = 0; i < projects.length; i++) {
+                    if (projects[i].id === projectId) {
+                        project = projects[i];
+                        break;
+                    }
+                }
+                if (!project) {
+                    showError();
+                    return;
+                }
+                render(project);
+            })
+            .catch(function() {
+                showError();
+            });
+
+        function showError() {
+            contentEl.innerHTML =
+                '<div class="error-state">' +
+                    '<p>Project not found.</p>' +
+                    '<br><a href="../projects.html">&larr; Back to projects</a>' +
+                '</div>';
+        }
+
+        function render(p) {
+            // Update page title
+            document.title = p.title + ' — Girolamo Pinto';
+
+            // Stack pills
+            var stackHtml = '';
+            if (p.stack && p.stack.length) {
+                stackHtml = '<div class="project-header-stack">' +
+                    p.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') +
+                    '</div>';
+            }
+
+            // Action buttons
+            var actionsHtml = '';
+            if (p.links) {
+                if (p.links.live) {
+                    actionsHtml += '<a href="' + p.links.live + '" target="_blank" rel="noopener" class="project-btn">' + liveSvg + ' Live demo</a>';
+                }
+                if (p.links.repo) {
+                    actionsHtml += '<a href="' + p.links.repo + '" target="_blank" rel="noopener" class="project-btn">' + repoSvg + ' Source code</a>';
+                }
+            }
+
+            // Sections
+            var sectionsHtml = '';
+
+            if (p.excerpt) {
+                sectionsHtml +=
+                    '<div class="project-section">' +
+                        '<div class="project-section-label">What it is</div>' +
+                        '<p>' + p.excerpt + '</p>' +
+                    '</div>';
+            }
+
+            if (p.motivation) {
+                if (p.excerpt) sectionsHtml += '<div class="project-divider"></div>';
+                sectionsHtml +=
+                    '<div class="project-section">' +
+                        '<div class="project-section-label">Why I built it</div>' +
+                        '<p>' + p.motivation + '</p>' +
+                    '</div>';
+            }
+
+            if (p.description) {
+                if (p.excerpt || p.motivation) sectionsHtml += '<div class="project-divider"></div>';
+                sectionsHtml +=
+                    '<div class="project-section">' +
+                        '<div class="project-section-label">How it works</div>' +
+                        '<p>' + p.description + '</p>' +
+                    '</div>';
+            }
+
+            contentEl.innerHTML =
+                '<div class="project-header">' +
+                    '<div class="project-header-meta">' +
+                        '<span class="project-header-tag">' + p.tag + '</span>' +
+                        '<span class="project-header-date">' + p.date + '</span>' +
+                    '</div>' +
+                    '<h1>' + p.title + '</h1>' +
+                    stackHtml +
+                    '<div class="project-header-actions">' + actionsHtml + '</div>' +
+                '</div>' +
+                '<div class="project-body">' +
+                    sectionsHtml +
+                '</div>' +
+                '<div class="project-nav">' +
+                    '<a href="../projects.html">' + arrowLeftSvg + ' All projects</a>' +
+                    '<a href="../index.html">Portfolio</a>' +
+                '</div>';
+        }
+    })();
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12') { e.preventDefault(); return; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
+        if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return; }
+        if (e.ctrlKey && e.key === 's') { e.preventDefault(); return; }
+    });
+    </script>
+</body>
+</html>
