@@ -137,6 +137,7 @@
 
         canvas {
             display: block;
+            touch-action: none;
         }
 
         .game-overlay {
@@ -308,12 +309,6 @@
             }
             .game-instructions {
                 display: none;
-            }
-            body {
-                overflow: hidden;
-                position: fixed;
-                width: 100%;
-                height: 100%;
             }
         }
     </style>
@@ -711,6 +706,10 @@
             if (dy > 0 && yVelocity !== -1) { yVelocity = 1; xVelocity = 0; }
             else if (dy < 0 && yVelocity !== 1) { yVelocity = -1; xVelocity = 0; }
         }
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
     }, { passive: false });
 
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
